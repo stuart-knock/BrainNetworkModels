@@ -16,7 +16,7 @@
  CurrentTime = clock;
  disp(['Script started on ' date ' at ' num2str(CurrentTime(4)) ':' num2str(CurrentTime(5)) ':' num2str(CurrentTime(6))]) 
  if strcmp(Sep,'/'), %on a *nix machine, then write machine details to our log...
-   !uname -a 
+   system('uname -a') 
  end 
  disp(['Script directory: ' ScriptDir])
  disp(['Code directory: ' FullPathCodeDir])
