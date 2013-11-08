@@ -116,6 +116,8 @@
 
 
 function [Xi Eta Alfa Btta t options] = ReducedFHNtess_heun(options)
+
+ warning('off', 'Octave:broadcast');
   
 %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
@@ -200,6 +202,8 @@ end
      end
    end
 %%%keyboard 
+   xhist = sum(xhist, 1);
+   c_0 = options.Dynamics.dttauc .* xhist;
 
    %TODO: Need to enable delays and other adaptions... 
    %TODO: optimise, eg, predivide options.Dynamics.LocalCoupling by
@@ -207,21 +211,21 @@ end
    for m = 1:options.Dynamics.NumberOfModes,
      LocalCoupling(m,:) = squeeze(Xi(options.Integration.maxdelayiters+k-1, :, m)) * options.Dynamics.LocalCoupling;
    end
-   LocalCoupling = options.Integration.dt * LocalCoupling;
+   LocalCoupling = options.Integration.dt * sum(LocalCoupling, 1);
 
   %Solve the differential equation (), using Heun scheme. (see, eg, Mannella 2002 "Integration Of SDEs on a Computer")  
    [Fx0 Fy0 Fz0 Fw0] = ReducedFHN(x, y, z, w, options.Dynamics);
    
-   x1 = x + Fx0 * options.Integration.dt + Noise_x - options.Dynamics.dttauc .* xhist + LocalCoupling;
+   x1 = x + Fx0 * options.Integration.dt + Noise_x - c_0 + LocalCoupling;
    y1 = y + Fy0 * options.Integration.dt + Noise_y;
-   z1 = z + Fz0 * options.Integration.dt + Noise_z;
+   z1 = z + Fz0 * options.Integration.dt + Noise_z - c_0 + LocalCoupling;
    w1 = w + Fw0 * options.Integration.dt + Noise_w;
    
    [Fx1 Fy1 Fz1 Fw1] = ReducedFHN(x1, y1, z1, w1, options.Dynamics);
    
-   nx = x + options.Integration.dtt * (Fx0 + Fx1) + Noise_x - options.Dynamics.dttauc .* xhist + LocalCoupling; 
+   nx = x + options.Integration.dtt * (Fx0 + Fx1) + Noise_x - c_0 + LocalCoupling; 
    ny = y + options.Integration.dtt * (Fy0 + Fy1) + Noise_y;
-   nz = z + options.Integration.dtt * (Fz0 + Fz1) + Noise_z; 
+   nz = z + options.Integration.dtt * (Fz0 + Fz1) + Noise_z - c_0 + LocalCoupling; 
    nw = w + options.Integration.dtt * (Fw0 + Fw1) + Noise_w; 
 
   %Store result of calc in variable for output

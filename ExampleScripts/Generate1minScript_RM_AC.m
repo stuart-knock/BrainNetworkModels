@@ -74,6 +74,6 @@
  disp(['Script ended on ' date ' at ' num2str(CurrentTime(4)) ':' num2str(CurrentTime(5)) ':' num2str(CurrentTime(6))])
 
 %% Always exit at the end when batching... 
- %exit
+ exit
  
 %%%EoF%%%

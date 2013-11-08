@@ -111,6 +111,8 @@
 
 
 function [Xi Eta Tau Alfa Btta Gamma t options] = ReducedHMR_heun(options)
+
+ warning('off', 'Octave:broadcast');
   
 %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
@@ -180,26 +182,28 @@ function [Xi Eta Tau Alfa Btta Gamma t options] = ReducedHMR_heun(options)
   %Calculate coupling term 
    if options.Dynamics.csf~=0,   %Skip it when checking uncoupled dynamics.
      xhist = sum(weights.*Xi(options.Integration.lidelay+k), 3);
+     xhist = sum(xhist, 1);
    end
 %%%keyboard 
+   c_0 = options.Dynamics.dtcsf .* xhist;
 
   %Solve the differential equation (), using Heun scheme. (see, eg, Mannella 2002 "Integration Of SDEs on a Computer")  
 
    [Fx0 Fy0 Fz0 Fw0 Fv0 Fu0] = ReducedHMR(x, y, z, w, v, u, options.Dynamics);
 
-   x1 = x + Fx0 * options.Integration.dt + Noise_x + options.Dynamics.dtcsf .* xhist;
+   x1 = x + Fx0 * options.Integration.dt + Noise_x + c_0;
    y1 = y + Fy0 * options.Integration.dt + Noise_y;
    z1 = z + Fz0 * options.Integration.dt + Noise_z;
-   w1 = w + Fw0 * options.Integration.dt + Noise_w;
+   w1 = w + Fw0 * options.Integration.dt + Noise_w + c_0;
    v1 = v + Fv0 * options.Integration.dt + Noise_v;
    u1 = u + Fu0 * options.Integration.dt + Noise_u;
 
    [Fx1 Fy1 Fz1 Fw1 Fv1 Fu1] = ReducedHMR(x1, y1, z1, w1, v1, u1, options.Dynamics);
 
-   nx = x + options.Integration.dtt * (Fx0 + Fx1) + Noise_x + options.Dynamics.dtcsf .* xhist; 
+   nx = x + options.Integration.dtt * (Fx0 + Fx1) + Noise_x + c_0; 
    ny = y + options.Integration.dtt * (Fy0 + Fy1) + Noise_y; 
    nz = z + options.Integration.dtt * (Fz0 + Fz1) + Noise_z; 
-   nw = w + options.Integration.dtt * (Fw0 + Fw1) + Noise_w; 
+   nw = w + options.Integration.dtt * (Fw0 + Fw1) + Noise_w + c_0; 
    nv = v + options.Integration.dtt * (Fv0 + Fv1) + Noise_v; 
    nu = u + options.Integration.dtt * (Fu0 + Fu1) + Noise_u; 
 

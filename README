@@ -178,7 +178,6 @@ tree
 │   │   ├── RegionColours80.mat
 │   │   ├── RegionColours82.mat
 │   │   └── SymJetZeroBlue.mat
-│   ├── Connectivity.mat
 │   ├── histConnectivity3D.m
 │   ├── histConnectivity.m
 │   ├── inheadConnectivity.m

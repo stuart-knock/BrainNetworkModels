@@ -118,7 +118,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
      else
        if mod(Connectivity.NumberOfNodes,2),
          Connectivity.NumberOfNodes = Connectivity.NumberOfNodes+1;
-         warning(strcat(mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
+         warning(strcat('BrainNetworkModels:', mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
        end
      end
      
@@ -154,7 +154,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
      else
        if mod(Connectivity.NumberOfNodes,2),
          Connectivity.NumberOfNodes = Connectivity.NumberOfNodes+1;
-         warning(strcat(mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
+         warning(strcat('BrainNetworkModels:', mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
        end
      end
      
@@ -187,7 +187,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
      else
        if mod(Connectivity.NumberOfNodes,2),
          Connectivity.NumberOfNodes = Connectivity.NumberOfNodes+1;
-         warning(strcat(mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
+         warning(strcat('BrainNetworkModels:', mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
        end
      end
      
@@ -220,7 +220,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
      else
        if mod(Connectivity.NumberOfNodes,2),
          Connectivity.NumberOfNodes = Connectivity.NumberOfNodes+1;
-         warning(strcat(mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
+         warning(strcat('BrainNetworkModels:', mfilename,':NumberOfNodesNotEven'), 'Need an even number of nodes... added 1 and continuing.');
        end
      end
      
@@ -295,9 +295,9 @@ function [Connectivity] = GetConnectivity(Connectivity)
      Connectivity.delay = Connectivity.invel.*(2.*LENreg_mean(1:Connectivity.NumberOfNodes,1:Connectivity.NumberOfNodes,Connectivity.subject)-1);
      Connectivity.delay(Connectivity.weights==0) = 0; %when weights are 0 lengths are NaN, changing here saves having to do it in the integration routine and has no effect as the history selected by these values are multiplied by weights...
      
-     %%%warning(strcat(mfilename,':NoPositionData'), 'There is no position data for "for_Vik_July11"');
+     %%%warning(strcat('BrainNetworkModels:', mfilename,':NoPositionData'), 'There is no position data for "for_Vik_July11"');
      %%%Position = zeros(N,3);
-     warning(strcat(mfilename,':OlafSaidPlottingOnly'), 'Olaf requested this position info be used for plotting purposes only...');
+     warning(strcat('BrainNetworkModels:', mfilename,':OlafSaidPlottingOnly'), 'Olaf requested this position info be used for plotting purposes only...');
      load(['ConnectivityData' Sep 'xyz_dsi_regional.mat'], 'xm', 'ym', 'zm'); % Contains: xm, ym, zm
      Connectivity.Position = [xm ym zm];
    %---------------------------------------------------------------% 
@@ -317,15 +317,21 @@ function [Connectivity] = GetConnectivity(Connectivity)
      end
 
     %Load the connectivity matrix data
-     temp = importdata(['ConnectivityData' Sep 'O52R00_IRP2008.txt']); 
+     try
+       temp = importdata(['ConnectivityData' Sep 'O52R00_IRP2008.txt'], ',');
+     catch
+       error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
+     end
      Connectivity.weights = temp.data;
      Connectivity.weights(isnan(Connectivity.weights)) = 0; %Set absent values to zero
      Connectivity.NodeStr = temp.textdata(2:end,1);
      
      %Load a cell array of strings containing more intuitive region names.
      %(Courtesy of RB.)
-     load(['ConnectivityData' Sep 'O52R00_IRP2008_NodeStrIntuitiveName.mat'])
-     Connectivity.NodeStrIntuitive = NodeStrIntuitive;
+     if ~isoctave(), %Getting an error loading this in Octave, it's non-critical so just skipping. TODO: Check again with newer octaves...
+       load(['ConnectivityData' Sep 'O52R00_IRP2008_NodeStrIntuitiveName.mat'])
+       Connectivity.NodeStrIntuitive = NodeStrIntuitive;
+     end
      
     %Insert columns at 27(O52-GR.cn),56(O52-Sf),58(O52-Sub.Th),59(O52-Teg.a)
      columnOfZeros = zeros(size(Connectivity.weights,1),1);
@@ -348,7 +354,9 @@ function [Connectivity] = GetConnectivity(Connectivity)
      Connectivity.weights(GarbageOut,:) = [];     %Throw out rows
      Connectivity.weights(:,GarbageOut) = [];     %Throw out columns
      Connectivity.NodeStr(GarbageOut) = []; %Throw out corresponding NodeStr
-     Connectivity.NodeStrIntuitive(GarbageOut) = []; %Throw out corresponding Intuitive NodeStr
+     if ~isoctave(),
+       Connectivity.NodeStrIntuitive(GarbageOut) = []; %Throw out corresponding Intuitive NodeStr
+     end
 %%%keyboard 
 %%%Connectivity.NodeStr
      % Clean-up Node Strings...
@@ -360,8 +368,12 @@ function [Connectivity] = GetConnectivity(Connectivity)
 %%%Connectivity.NodeStr
          
     %Load position data
-     left  = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_left.xls']);  %Node position data, Left hemisphere
-     right = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_right.xls']); %Node position data, Right hemisphere 
+     try %On my setup I can't get any xls to load in Octave. TODO: May be easier to transform all xls into a format that will be less painful... I hate .xls.
+       left  = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_left.xls']);  %Node position data, Left hemisphere
+       right = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_right.xls']); %Node position data, Right hemisphere 
+     catch
+       error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io, java and importdata from forge...');
+     end
      ThalamusPosition = mean([left.data ; right.data],1); %No position data for thalamus, approximate by centre of cortical positions.
      
      %Modify region names for locations to be consistent with naming for connectivity matrix...
@@ -393,7 +405,9 @@ function [Connectivity] = GetConnectivity(Connectivity)
        case 'right',
          for j = 1:Connectivity.NumberOfNodes,
            Connectivity.NodeStr{j} = ['r' Connectivity.NodeStr{j}]; %Prepend with r for right hemisphere
-           Connectivity.NodeStrIntuitive{j} = ['r' Connectivity.NodeStrIntuitive{j}]; %Prepend with r for right hemisphere   
+           if ~isoctave(),
+             Connectivity.NodeStrIntuitive{j} = ['r' Connectivity.NodeStrIntuitive{j}]; %Prepend with r for right hemisphere
+           end
          end
          Connectivity.LeftNodes = false(1,Connectivity.NumberOfNodes);
         %Use positions for right hemisphere...
@@ -403,7 +417,9 @@ function [Connectivity] = GetConnectivity(Connectivity)
        case 'left',
          for j = 1:Connectivity.NumberOfNodes,
            Connectivity.NodeStr{j} = ['l' Connectivity.NodeStr{j}]; %Prepend with l for left hemisphere
-           Connectivity.NodeStrIntuitive{j} = ['l' Connectivity.NodeStrIntuitive{j}]; %Prepend with l for left hemisphere
+           if ~isoctave(),
+             Connectivity.NodeStrIntuitive{j} = ['l' Connectivity.NodeStrIntuitive{j}]; %Prepend with l for left hemisphere
+           end
          end
          Connectivity.LeftNodes = true(1,Connectivity.NumberOfNodes);
         %Use positions for left hemisphere...
@@ -411,15 +427,21 @@ function [Connectivity] = GetConnectivity(Connectivity)
          PositionStr  = left.textdata;
          
        case 'both',
-         Connectivity.NodeStr = [Connectivity.NodeStr ; Connectivity.NodeStr];
-         Connectivity.NodeStrIntuitive = [Connectivity.NodeStrIntuitive ; Connectivity.NodeStrIntuitive];
+         Connectivity.NodeStr = [Connectivity.NodeStr ; Connectivity.NodeStr];hemisphere
+         if ~isoctave(),
+           Connectivity.NodeStrIntuitive = [Connectivity.NodeStrIntuitive ; Connectivity.NodeStrIntuitive];
+         end
          for j = 1:Connectivity.NumberOfNodes,
            Connectivity.NodeStr{j} = ['l' Connectivity.NodeStr{j}]; %Prepend with l for left hemisphere
-           Connectivity.NodeStrIntuitive{j} = ['l' Connectivity.NodeStrIntuitive{j}]; %Prepend with l for left hemisphere
+           if ~isoctave(),
+             Connectivity.NodeStrIntuitive{j} = ['l' Connectivity.NodeStrIntuitive{j}]; %Prepend with l for left hemisphere
+           end
          end
          for j = (Connectivity.NumberOfNodes+1):length(Connectivity.NodeStr),
            Connectivity.NodeStr{j} = ['r' Connectivity.NodeStr{j}]; %Prepend with r for right hemisphere
-           Connectivity.NodeStrIntuitive{j} = ['r' Connectivity.NodeStrIntuitive{j}]; %Prepend with r for right hemisphere
+           if ~isoctave(),
+             Connectivity.NodeStrIntuitive{j} = ['r' Connectivity.NodeStrIntuitive{j}]; %Prepend with r for right hemisphere
+           end
          end
          Connectivity.LeftNodes = [true(1,Connectivity.NumberOfNodes) false(1,Connectivity.NumberOfNodes)];
         %Use positions for left hemisphere...
@@ -441,7 +463,11 @@ function [Connectivity] = GetConnectivity(Connectivity)
 % % %          InterHemispheric = CallosalConnections.data.Sheet1(:,5);
                   
         %Load cortical interhemispheric data...
-         CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.xls']);
+         try
+           CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.xls']);
+         catch
+           error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
+         end
          InterHemisphericStr = cell(1,36);
          LabelMapping        = cell(1,36);
          DSIlabel            = cell(1,36);
@@ -489,7 +515,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
          Connectivity.NumberOfNodes = length(Connectivity.NodeStr); %Reset N for new two hemishpere brain...
          
        otherwise
-         error(strcat(mfilename,':UnknownHemisphere'), ['Ummmm... Hemisphere should be left, right, or both but you seem to have asked for: ' Connectivity.hemisphere]);
+         error(strcat('BrainNetworkModels:', mfilename,':UnknownHemisphere'), ['Ummmm... Hemisphere should be left, right, or both but you seem to have asked for: ' Connectivity.hemisphere]);
      end
      
      Connectivity.ThalamicNodes = false(1,Connectivity.NumberOfNodes);
@@ -501,7 +527,9 @@ function [Connectivity] = GetConnectivity(Connectivity)
       Connectivity.weights(Connectivity.ThalamicNodes,:)        = []; %Throw out row
       Connectivity.weights(:,Connectivity.ThalamicNodes)        = []; %Throw out column
       Connectivity.NodeStr(Connectivity.ThalamicNodes)          = []; %Throw out corresponding NodeStr 
-      Connectivity.NodeStrIntuitive(Connectivity.ThalamicNodes) = []; %Throw out corresponding NodeStrIntuitive
+      if ~isoctave(),
+        Connectivity.NodeStrIntuitive(Connectivity.ThalamicNodes) = []; %Throw out corresponding NodeStrIntuitive
+      end
       Connectivity.LeftNodes(Connectivity.ThalamicNodes)        = [];
       Connectivity.NumberOfNodes = length(Connectivity.NodeStr);      %Reset N for cortex only matrix...
       Connectivity.ThalamicNodes = false(1,Connectivity.NumberOfNodes);
@@ -561,7 +589,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
        case 'fbden' 
          Connectivity.weights  = CIJ_fbden_average;
        otherwise
-         error(strcat(mfilename,':UnknownWhichWeights'), ['WhichWeights for DSI_enhanced must be either ''resampled'' or ''fbden''. You requested ''' Connectivity.WhichWeights '''.']);
+         error(strcat('BrainNetworkModels:', mfilename,':UnknownWhichWeights'), ['WhichWeights for DSI_enhanced must be either ''resampled'' or ''fbden''. You requested ''' Connectivity.WhichWeights '''.']);
      end
      Connectivity.delay = Connectivity.invel.*CIJ_edgelength_average;
      Connectivity.delay(Connectivity.weights==0) = 0; %when weights are 0 lengths are NaN, changing here saves having to do it in the integration routine and has no effect as the history selected by these values are multiplied by weights...
@@ -615,7 +643,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
            Connectivity.Position(k,:) = mean(temp(roi_lbls==k,:)); 
          end
        otherwise
-         error(strcat(mfilename,':UnknownParcellation'), ['Parcellation for DSI_enhanced must be either ''full'' or ''roi''. You requested ''' Connectivity.Parcellation '''.']);
+         error(strcat('BrainNetworkModels:', mfilename,':UnknownParcellation'), ['Parcellation for DSI_enhanced must be either ''full'' or ''roi''. You requested ''' Connectivity.Parcellation '''.']);
      end
    
      
@@ -632,10 +660,14 @@ function [Connectivity] = GetConnectivity(Connectivity)
      end
      
      if ~strcmp(Connectivity.hemisphere, 'both'),
-       error(strcat(mfilename,':NotImplemented'), ['Haven''t implemented split into hemispheres yet for gleb...']);
+       error(strcat('BrainNetworkModels:', mfilename,':NotImplemented'), ['Haven''t implemented split into hemispheres yet for gleb...']);
      end
      
-     Description = importdata(['ConnectivityData' Sep 'RM_mni_description_20110513_clean.xls']);
+     try
+       Description = importdata(['ConnectivityData' Sep 'RM_mni_description_20110513_clean.xls']);
+     catch
+       error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
+     end
      
      %NodeStr
      Connectivity.NodeStr = Description.textdata(2:end, end);
@@ -658,7 +690,11 @@ function [Connectivity] = GetConnectivity(Connectivity)
      end
      
      %Cortical
-     isCortex = importdata(['ConnectivityData' Sep 'RM.isCortex_20111020_clean.xls']);
+     try
+       isCortex = importdata(['ConnectivityData' Sep 'RM.isCortex_20111020_clean.xls']);
+     catch
+       error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
+     end
      Connectivity.ThalamicNodes = ~isCortex.data(:,3);
      %%%Connectivity.ThalamicNodes = false(1,Connectivity.NumberOfNodes);
      %%%Connectivity.ThalamicNodes(1, [42:48 90:96]) = true;
@@ -688,7 +724,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
      
    %---------------------------------------------------------------%  
    otherwise
-     error(strcat(mfilename,':UnknownConnectionMatrix'), ['Don''t know how to load this matrix...' ThisMatrix]);
+     error(strcat('BrainNetworkModels:', mfilename,':UnknownConnectionMatrix'), ['Don''t know how to load this matrix...' ThisMatrix]);
  end %switch ThisMatrix
      
 end %function GetConnectivity()

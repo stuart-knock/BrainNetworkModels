@@ -32,7 +32,7 @@
  path(SurfacesPath,path)
  
 %Load surface
- ThisSurface = '213';
+ ThisSurface = 'reg13';
  load(['Cortex_' ThisSurface '.mat'], 'Vertices', 'Triangles'); %Contains: 'Vertices', 'Triangles'
  
  % Connectivity
@@ -44,7 +44,7 @@
  options.Dynamics.WhichModel = 'BRRWtess';
  options.Dynamics.BrainState = 'ec';
  
- load(['SummaryInfo_' ThisSurface '.mat'], 'NumberOfVertices');
+ load(['SummaryInfo_Cortex_' ThisSurface '.mat'], 'NumberOfVertices');
  options.Connectivity.NumberOfVertices = NumberOfVertices;
  clear NumberOfVertices
  
@@ -56,11 +56,12 @@
  %Initialise defaults
  options.Dynamics = SetDynamicParameters(options.Dynamics);
  options = SetIntegrationParameters(options);
+ options.Integration.iters = 2^8;
  options = SetDerivedParameters(options);
  options = SetInitialConditions(options);
 
  %Beltrami-Laplace operator
- load(['LapOp_n8_' ThisSurface '.mat'], 'LapOp');
+ load(['LapOp_' ThisSurface '.mat'], 'LapOp');
  options.Dynamics.LapOp = LapOp;
  clear LapOp
  
@@ -68,15 +69,15 @@
  [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRWtess_heun(options);
 
 %% Save results to the directory of the invoking script
- ResultsPathFile = [ScriptDir Sep mfilename '.mat'];
- save(ResultsPathFile)
- disp(['Saved results of calculation to: ' ResultsPathFile])
+ %ResultsPathFile = [ScriptDir Sep mfilename '.mat'];
+ %save(ResultsPathFile)
+ %disp(['Saved results of calculation to: ' ResultsPathFile])
 
 %% When did we finish:
  CurrentTime = clock;
  disp(['Script ended on ' date ' at ' num2str(CurrentTime(4)) ':' num2str(CurrentTime(5)) ':' num2str(CurrentTime(6))])
 
 %% Always exit at the end when batching... 
- exit
+ %exit
  
 %%% EoF %%%

@@ -127,6 +127,8 @@
 
 
 function [Xi Eta Tau Alfa Btta Gamma t options] = ReducedHMRtess_heun(options)
+
+ warning('off', 'Octave:broadcast');
   
 %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
@@ -214,6 +216,8 @@ function [Xi Eta Tau Alfa Btta Gamma t options] = ReducedHMRtess_heun(options)
      end
    end
 %%%keyboard 
+   xhist = sum(xhist, 1);
+   c_0 = options.Dynamics.dtcsf .* xhist;
 
    %TODO: Need to enable delays and other adaptions... 
    %TODO: optimise, eg, predivide options.Dynamics.LocalCoupling by
@@ -221,26 +225,26 @@ function [Xi Eta Tau Alfa Btta Gamma t options] = ReducedHMRtess_heun(options)
    for m = 1:options.Dynamics.NumberOfModes,
      LocalCoupling(m,:) = (squeeze(Xi(options.Integration.maxdelayiters+k-1, :, m)) * options.Dynamics.LocalCoupling);
    end
-   LocalCoupling = options.Integration.dt * LocalCoupling;
+   LocalCoupling = options.Integration.dt * sum(LocalCoupling, 1); %NOTE: should be able do this sum above and avoid loop, check...
    
 
   %Solve the differential equation (), using Heun scheme. (see, eg, Mannella 2002 "Integration Of SDEs on a Computer")  
 
    [Fx0 Fy0 Fz0 Fw0 Fv0 Fu0] = ReducedHMR(x, y, z, w, v, u, options.Dynamics);
 
-   x1 = x + Fx0 * options.Integration.dt + Noise_x + options.Dynamics.dtcsf .* xhist + LocalCoupling ;
+   x1 = x + Fx0 * options.Integration.dt + Noise_x + c_0 + LocalCoupling;
    y1 = y + Fy0 * options.Integration.dt + Noise_y;
    z1 = z + Fz0 * options.Integration.dt + Noise_z;
-   w1 = w + Fw0 * options.Integration.dt + Noise_w;
+   w1 = w + Fw0 * options.Integration.dt + Noise_w + c_0 + LocalCoupling;
    v1 = v + Fv0 * options.Integration.dt + Noise_v;
    u1 = u + Fu0 * options.Integration.dt + Noise_u;
 
    [Fx1 Fy1 Fz1 Fw1 Fv1 Fu1] = ReducedHMR(x1, y1, z1, w1, v1, u1, options.Dynamics);
    
-   nx = x + options.Integration.dtt * (Fx0 + Fx1) + Noise_x + options.Dynamics.dtcsf .* xhist + LocalCoupling; 
+   nx = x + options.Integration.dtt * (Fx0 + Fx1) + Noise_x + c_0 + LocalCoupling; 
    ny = y + options.Integration.dtt * (Fy0 + Fy1) + Noise_y; 
    nz = z + options.Integration.dtt * (Fz0 + Fz1) + Noise_z; 
-   nw = w + options.Integration.dtt * (Fw0 + Fw1) + Noise_w; 
+   nw = w + options.Integration.dtt * (Fw0 + Fw1) + Noise_w + c_0 + LocalCoupling; 
    nv = v + options.Integration.dtt * (Fv0 + Fv1) + Noise_v; 
    nu = u + options.Integration.dtt * (Fu0 + Fu1) + Noise_u; 
 
