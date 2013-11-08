@@ -119,7 +119,11 @@ function [Xi Eta Alfa Btta t options] = ReducedFHNtess_heun(options)
   
 %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
- RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+ if isoctave(),
+   rand('state', options.Dynamics.InitialConditions.ThisRandomStream.State);
+ else %Presumably Matlab
+   RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+ end
 
 %Check sufficient history was provided
  if options.Integration.maxdelayiters>size(options.Dynamics.InitialConditions.Xi, 1), %Initialconditions aren't sufficiently long enough
@@ -241,7 +245,11 @@ end
  end
  
  if nargout > 5 %Store the state of the random number generators, for continuation...
-   options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+   if isoctave(),
+     options.Dynamics.InitialConditions.StateRand  = rand('state');
+   else %Presumably Matlab
+     options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+   end
  end
  
 end %function ReducedFHNtess_heun()

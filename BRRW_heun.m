@@ -116,23 +116,11 @@ function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRW_heun(options
 
 %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
- RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
-
-% % % %% Calculate some suitable initial conditions if none were provided
-% % %  if ~isfield(options.Dynamics, 'InitialConditions'),
-% % %    options.Dynamics.InitialConditions.StateRand  = 5489;
-% % %    %Set RandStream to a state consistent with InitialConditions.
-% % %    options.Dynamics.InitialConditions.ThisRandomStream = RandStream.create('mt19937ar','seed', options.Dynamics.InitialConditions.StateRand);
-% % %    RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
-% % %    
-% % %    options.Dynamics.InitialConditions = BRRW_InitialConditions(Parameters);
-% % %  else
-% % %    %Set RandStream to a state consistent with InitialConditions.
-% % %    ThisRandomStream = RandStream.getDefaultStream;
-% % %    ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
-% % %    RandStream.setDefaultStream(ThisRandomStream);  
-% % %  end
-% % % %-----------------------------------------------------------------------%
+ if isoctave(),
+   rand('state', options.Dynamics.InitialConditions.ThisRandomStream.State);
+ else %Presumably Matlab
+   RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+ end
 
 %Check sufficient history was provided
  if options.Integration.maxdelayiters>size(options.Dynamics.InitialConditions.phi_e, 1), %Initialconditions aren't sufficiently long enough
@@ -233,7 +221,11 @@ function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRW_heun(options
  end
  
  if nargout > 3 %Store the state of the random number generators, for continuation...
-   options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+   if isoctave(),
+     options.Dynamics.InitialConditions.StateRand  = rand('state');
+   else %Presumably Matlab
+     options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+   end
  end
  
 end %function BRRW_heun()

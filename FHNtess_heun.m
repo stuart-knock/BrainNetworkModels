@@ -94,7 +94,11 @@ function [V W t options] = FHNtess_heun(options)
 
 %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
- RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+ if isoctave(),
+   rand('state', options.Dynamics.InitialConditions.ThisRandomStream.State);
+ else %Presumably Matlab
+   RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+ end
 
 %Set initial state vectors
  x = options.Dynamics.InitialConditions.V(end, :);
@@ -169,7 +173,11 @@ function [V W t options] = FHNtess_heun(options)
  end
  
  if nargout > 3 %Store the state of the random number generators, for continuation...
-   options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+   if isoctave(),
+     options.Dynamics.InitialConditions.StateRand  = rand('state');
+   else %Presumably Matlab
+     options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+   end
  end
  
 end %function FHNtess_heun()

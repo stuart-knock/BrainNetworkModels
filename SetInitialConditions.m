@@ -23,9 +23,17 @@ function options = SetInitialConditions(options)
  
  %Set RandStream to a state consistent with InitialConditions.
  options.Dynamics.InitialConditions.StateRand  = 5489;
- options.Dynamics.InitialConditions.ThisRandomStream = RandStream.create('mt19937ar','seed', options.Dynamics.InitialConditions.StateRand);
- RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
- options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+ if isoctave(),
+   rand('seed', options.Dynamics.InitialConditions.StateRand);
+   temp = rand(625, 1); % This can't be the only way to simply seed a state...
+   rand('state', temp);
+   options.Dynamics.InitialConditions.ThisRandomStream.State = rand('state');
+   options.Dynamics.InitialConditions.StateRand = rand('state');
+ else %Presumably Matlab
+   options.Dynamics.InitialConditions.ThisRandomStream = RandStream.create('mt19937ar','seed', options.Dynamics.InitialConditions.StateRand);
+   RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+   options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+ end
   
  NumberOfNodes = options.Connectivity.NumberOfNodes;
  NumberOfModes = options.Dynamics.NumberOfModes;
