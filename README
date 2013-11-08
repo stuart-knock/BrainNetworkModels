@@ -1,0 +1,275 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% README %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This directory contains matlab functions for integrating networks
+of local neural field models coupled through anatomically derived 
+connectivity matrices. Data representing large scale connectivity, 
+such as connection weights, region centres, etc are contained in 
+the directory ConnectivityData. The Surfaces directory contains 
+tesselated surfaces representing the folded cortical surface as 
+well as skull and skin for use in calculating ForwardSolutions. 
+
+ General Usage:
+    1)Specify and then load a connectivity matrix using:
+       GetConnectivity(...)
+    2)Specify model and set default parameters, using:
+       SetDynamicParameters(...)
+       SetIntegrationParameters(...) 
+       SetDerivedParameters(...)
+       SetInitialConditions(...)   
+    3)Integrate your chosen model and netwrok using: 
+      ChosenModelName_heun(...)
+
+    Example matlab scripts, suitable for batching, can be found in 
+    the ExampleScripts directory.
+    
+    For detailed usage see relevant .m files... 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ NOTE: Consider lowercasing all function, data file, and directory
+       names for improved portability...
+
+ NOTE: Current default parameters produce individual oscillators at
+       approximately 100Hz, however, this is mathematically
+       equivalent to 10Hz if we simply reinterpret an invel of 1/10
+       as 1 m/s...
+     
+    
+    
+ NOTE: A second instance of the main function(fhn_net_rk.m) was
+       created  (fhn_net_heun.m) which uses an implementation of
+       the Heun method  for integrating the network of stochastic
+       FitzHugh-Nagumo  oscillators rather than the 4th order
+       Runge-Kutter implementation.  This was done following
+       various papers in the literature of applied  mathematics
+       suggesting problems with using numerical integration 
+       methods with differing orders of convergence for the
+       stochastic  and deterministic portions of the dynamics...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+tree
+.
+├── BRRW_heun.m
+├── BRRW.m
+├── BRRWtess_heun.m
+├── ConnectivityData
+│   ├── AverageOrientation_G_20110513.mat
+│   ├── AverageOrientation_Matrix_20110513.mat
+│   ├── BUGcentres_macaque_new_right.xls
+│   ├── CallosalConnections_HagmannVsCocomac.xls
+│   ├── centres_colin_left.xls
+│   ├── centres_colin_right.xls
+│   ├── Centres_G_20110513.mat
+│   ├── centres_macaque_new_left.xls
+│   ├── centres_macaque_new_right.xls
+│   ├── centres_macaque_old_right.xls
+│   ├── Centres_Matrix_20110513.mat
+│   ├── centres_mni_left.xls
+│   ├── centres_mni_right.xls
+│   ├── centres_pals_left.xls
+│   ├── centres_pals_right.xls
+│   ├── cleanCallosalConnections_HagmannVsCocomac.xls
+│   ├── cleanRM_bothHemispheres_110512.xls
+│   ├── cortexfornewmatrix.mat
+│   ├── DSI_enhanced.mat
+│   ├── dti_labels.mat
+│   ├── for_Vik_July11.mat
+│   ├── O52R00_IRP2008_NodeStrIntuitiveName.mat
+│   ├── O52R00_IRP2008.txt
+│   ├── RegionSurfaceArea_G_20110513.mat
+│   ├── RM_AC.dat
+│   ├── RM_bothHemispheres_110512.xlsx
+│   ├── RM.isCortex_20111020_clean.xls
+│   ├── RM_mni_description_20110513_clean.xls
+│   ├── tal_to_randysroi.txt
+│   ├── TVB_surfaceData+connectivityMatrix_20110923.mat
+│   └── xyz_dsi_regional.mat
+├── DiscreteLaplacian_1D.m
+├── dis.m
+├── docs
+│   ├── BihemisphericCorticothalamic.mat
+│   ├── BiHemisphericCorticoThalamicNetwork_Blurb.txt
+│   ├── BiHemisphericCorticoThalamicNetwork.eps
+│   ├── BiHemisphericCorticoThalamicNetwork_labeled.eps
+│   ├── BiHemisphericCorticoThalamicNetwork_labeled.fig
+│   ├── BrainModelling.bib
+│   ├── CoCoMac_regionalmap.pdf
+│   ├── DescriptionOfOptions.m
+│   ├── equations
+│   │   ├── BRRWeqn.eps
+│   │   ├── BRRWeqn.tex
+│   │   ├── FHNeqn.eps
+│   │   ├── FHNeqn.tex
+│   │   ├── GeneralEqnForm.eps
+│   │   ├── GeneralEqnForm.tex
+│   │   ├── LaplaceBeltrami.eps
+│   │   ├── LaplaceBeltrami.tex
+│   │   ├── Reduced_FHNeqn.eps
+│   │   ├── Reduced_FHNeqn.tex
+│   │   ├── Reduced_HMReqn.eps
+│   │   └── Reduced_HMReqn.tex
+│   ├── papers
+│   │   ├── Belkinetal2008_DiscreteLaplaceOperatorOnMeshedSurfaces.pdf
+│   │   ├── Breakspearetal2005_UnifyingExplanationOfPrimaryGeneralizedSeizuresThroughNonlinearBrainModelingAndBifurcationAnalysis.pdf
+│   │   ├── Ellenriederetal2009_OnTheEEGMEGForwardProblemSolutionForDistributedCorticalSurfaces.pdf
+│   │   ├── Glickenstein2005_GeometricTriangulationsAndDiscreteLaplaciansOnManifolds.pdf
+│   │   ├── HamalianenSarvas1989_RealisticConductivityGeometryModelOfTheHumanHeadForInterpretationOfNeuromagneticData.pdf
+│   │   ├── Meyeretal2003_DiscreteDifferentialGeometryOperatorsForTriangulated2Manifolds.pdf
+│   │   ├── Mosheretal1999_EEGMEGForwardSolutionsForInverseMethods.pdf
+│   │   ├── Nong_Surf2004_NumericalStudyOfDiscreteLaplaceBeltramiFinalReport.pdf
+│   │   ├── StefanescuJirsa2008_LowDimensionalDescriptionOfGloballyCoupledHeterogeneousNeuralNetExcitatoryInhibitoryNeurons.pdf
+│   │   ├── StefanescuJirsa2008_SupMat_pcbi.1000219.s001.eps
+│   │   ├── StefanescuJirsa2008_SupMat_pcbi.1000219.s002.eps
+│   │   ├── StefanescuJirsa2008_SupMat_pcbi.1000219.s003.eps
+│   │   ├── StefanescuJirsa2008_SupMat_TextS1_pcbi.1000219.s004.pdf
+│   │   └── Talton2004_ShortSurveyMeshSimplificationAlgorithms.pdf
+│   ├── StefenescuPaperReducedModelParameters.txt
+│   └── SurfaceRegularisation.tex
+├── ExampleScripts
+│   ├── ExampleReducedFHNCoefficientScript.m
+│   ├── ExampleReducedHMRCoefficientScript.m
+│   ├── ExampleScript_BRRWtess_defaults.m
+│   ├── ExampleScript_ReducedFHN.m
+│   ├── ExampleScript_ReducedHMR.m
+│   ├── ExampleScript_Rest_BRRWtess.m
+│   ├── Generate1minScript_RM_AC.m
+│   ├── MatlabPythonSpeedTest.m
+│   ├── run_ExampleScript_BRRWtess_defaults
+│   ├── run_ExampleScript_ReducedFHN
+│   ├── run_ExampleScript_ReducedHMR
+│   └── Stability_for_Vik_July11_vel_070.m
+├── FHN_heun.m
+├── FHN.m
+├── FHNtess_heun.m
+├── Gaussian.m
+├── GetAngles.m
+├── GetAreaNames.m
+├── GetConnectivity.m
+├── GetLinearIndex.m
+├── LowResFakeSkulls.m
+├── MakeTesselatedPlane.m
+├── MergeStructures.m
+├── NormCDFinv.m
+├── NormPDF.m
+├── nStepWeight.m
+├── PhysicsBrain.m
+├── PlottingTools
+│   ├── colourmaps
+│   │   ├── BlackToBlue.mat
+│   │   ├── BlueBigGreyRed.mat
+│   │   ├── BlueBlackRed.mat
+│   │   ├── BlueGreyRed.mat
+│   │   ├── BlueToBlack.mat
+│   │   ├── DarkBlueToLightBlue.mat
+│   │   ├── GreenBlackRed.mat
+│   │   ├── GreenToBlack.mat
+│   │   ├── LightBlueToDarkBlue.mat
+│   │   ├── RegionColours37.mat
+│   │   ├── RegionColours40.mat
+│   │   ├── RegionColours41.mat
+│   │   ├── RegionColours74.mat
+│   │   ├── RegionColours80b.mat
+│   │   ├── RegionColours80c.mat
+│   │   ├── RegionColours80d.mat
+│   │   ├── RegionColours80e.mat
+│   │   ├── RegionColours80f.mat
+│   │   ├── RegionColours80.mat
+│   │   ├── RegionColours82.mat
+│   │   └── SymJetZeroBlue.mat
+│   ├── Connectivity.mat
+│   ├── histConnectivity3D.m
+│   ├── histConnectivity.m
+│   ├── inheadConnectivity.m
+│   ├── inspectdoi.m
+│   ├── PlotConnectivity3D.m
+│   ├── PlotConnectivity.m
+│   ├── plotfft.m
+│   ├── PlotGraphMetrics.m
+│   ├── PlotLocalSurface.m
+│   ├── PlotNodeBifurcation.m
+│   ├── PlotNodewiseCorrelation.m
+│   ├── PlotOverlayedHistograms.m
+│   ├── PlotRegionAveragedTimeSeries.m
+│   ├── PlotRegionColouredBars.m
+│   ├── PlotRegionColouredFFT.m
+│   ├── PlotRegionColouredTimeSeries.m
+│   ├── PlotReorder.m
+│   ├── PlotSpaceTime.m
+│   ├── PlotTimeSeries.m
+│   ├── script_CortexSensitivityMapOfElectrodes.m
+│   ├── SurfaceConnectivity.m
+│   ├── SurfaceMesh.m
+│   ├── SurfaceMovie.m
+│   ├── SurfaceRegions.m
+│   └── utilities
+│       ├── arrow3D.m
+│       ├── AxisToOrigin.m
+│       ├── GroupRegions.m
+│       ├── imrotateticklabel.m
+│       ├── makedoi.m
+│       ├── mpgwrite.mexa64
+│       ├── rotatePoints.m
+│       └── xticklabel_rotate.m
+├── README
+├── reduced_coefficients.m
+├── ReducedFHN_heun.m
+├── ReducedFHN.m
+├── ReducedFHNtess_heun.m
+├── ReducedHMR_heun.m
+├── ReducedHMR.m
+├── ReducedHMRtess_heun.m
+├── Sensors
+│   ├── BDI_EEGLab_electrode.mat
+│   ├── BDI_EEGlab_Electrodes_64.m
+│   └── EEG_unit_vectors_BrainProducts_62.txt.bz2
+├── SetDerivedParameters.m
+├── SetDynamicParameters.m
+├── SetInitialConditions.m
+├── SetIntegrationParameters.m
+├── Sigma.m
+├── SmoothMeshParameters.m
+├── SNX_heun.m
+├── SNXtess_heun.m
+├── SpatializeDynamicParameters.m
+├── Surfaces
+│   ├── CheckSurface.m
+│   ├── CollapseEdges.m
+│   ├── Cortex_reg13.mat
+│   ├── GetEdgesToReduceDegree.m
+│   ├── GetLittleTriangles.m
+│   ├── GetLocalSurface.m
+│   ├── GetShortLongEdges.m
+│   ├── GetSurfaceAreas.m
+│   ├── GetSurfaceCurvature.m
+│   ├── GetSurfaceLocationOfSensors.m
+│   ├── GetSurfaceNormals.m
+│   ├── GetSurfaceSummaryInfo.m
+│   ├── LapOp_reg13.mat
+│   ├── LoadOFF.m
+│   ├── LocalCoupling.m
+│   ├── MakeFakeSkull.m
+│   ├── MakeMeshUnitSphere.m
+│   ├── Mask_O52R00_IRP2008.nii
+│   ├── MeshDistance.m
+│   ├── MeshLaplacian.m
+│   ├── MoveTowardCentreOfMass.m
+│   ├── NearestNeighbourCoupling.m
+│   ├── ProjectionMatrixVertices_reg13_bdi_eeglab_64.mat
+│   ├── README
+│   ├── RegionMapping_reg13_O52R00_IRP2008.mat
+│   ├── RemoveIssolatedVertices.m
+│   ├── RemovePinchedOffSurface.m
+│   ├── RemoveSmallDegree3.m
+│   ├── SimplifyMesh2.m
+│   ├── SplitEdges.m
+│   ├── SummaryInfo_Cortex_reg13.mat
+│   └── WriteOFF.m
+├── UpdateInitialConditions.m
+├── write_connectivity_to_txt.m
+├── write_eeg_sensors_as_txtbz2.m
+└── write_surface_to_txt.m
+
+10 directories, 209 files
+

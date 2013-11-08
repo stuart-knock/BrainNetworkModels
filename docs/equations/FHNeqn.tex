@@ -1,0 +1,28 @@
+% latex FHNeqn.tex
+% dvips -E -o FHNeqn.eps FHNeqn.dvi
+%
+
+\documentclass[12pt]{article}
+
+ \usepackage[dvips]{graphicx}
+
+%% The amssymb package provides various useful mathematical symbols
+ \usepackage{amssymb}
+  
+  \pagestyle{empty}
+  \thispagestyle{empty} 
+  \setlength{\parindent}{0mm}
+
+
+  \begin{document}
+  
+    $\dot{u}_i(t) = g(u_i,\nu_i) - c\sum_{j=1}^{N}f_{ij}u_j(t-\Delta t_{ij}) + n_u(t)$
+    \\
+    $\dot{\nu}_i(t) = h(u_i,\nu_i) + n_{\nu}(t),$
+    \\
+    $g(u_i,\nu_i) = \tau[\nu_i + \gamma u_i - \frac{u_i^3}{3}]$
+    \\
+    $h(u_i,\nu_i) = -\frac{1}{\tau}[u_i - \alpha +b \nu_i]$
+
+  \end{document}
+%%%EoF%%%

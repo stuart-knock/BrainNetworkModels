@@ -1,0 +1,59 @@
+## README
+
+ NOTE: We should work using both pial(grey-matter csf boundary) surface as 
+       well as the grey-matter white-matter boundary. As the combination 
+       of these surfaces has been used in published studies of cortical 
+       thickness we would be justified in using the volume bounded by 
+       these two surfaces in our calculation of the M/EEG forward solutions.
+ 
+ NOTE: The current surfaces "Polish" 213 through 217 have bumps, which
+       may be related to the triangle orientation issue which I assume is 
+       caused by a bug in the SplitEdges() function. 
+       -- FIXED A TRIANGLE ORIENTATION BUG IN  RemoveSmallDegree3(), WHICH 
+          MAY HAVE BEEN THE SOURCE OF THE PROBLEM...
+       
+
+ NOTE: Possible issue with current RegionMapping, presumably due to 
+       incorrect "Mask" <-> "Surface" allignment, with certain 
+       regions being irregular or noncontiguous. See, for example, 
+       lPFCVL
+       
+
+ NOTE: Should consider rescaling cortical surfaces to maintain constant
+       total surface area across resolutions. Currently total surface
+       area decreases with decreasing resolution.
+
+
+###################################################################
+
+ Cortex_<SurfaceName>.mat #Contains: 'Vertices', 'Triangles', 'VertexNormals', 'TriangleNormals'
+ 
+ SummaryInfo_<SurfaceName>.mat 
+   #Contains: 'NumberOfVertices', 'NumberOfTriangles',
+              'minEdgeLength',    'maxEdgeLength',     'meanEdgeLength',              
+              'minTriangleArea',  'maxTriangleArea',   'meanTriangleArea',            
+              'minDegree',        'maxDegree',         'medianDegree',                
+              'TotalSurfaceArea')                                                  
+                           
+
+ 
+ InnerSkull_<SurfaceName>.mat #Contains: 'Vertices', 'Triangles', 'VertexNormals', 'TriangleNormals'
+ OuterSull_<SurfaceName>.mat  #Contains: 'Vertices', 'Triangles', 'VertexNormals', 'TriangleNormals'
+ OuterSkin_<SurfaceName>.mat  #Contains: 'Vertices', 'Triangles', 'VertexNormals', 'TriangleNormals'
+ 
+ 
+ 
+ #As the mapping process is dodgy/inaccurate/artificial at best using 
+ #the .nii Mask on the fly would be problematic. Better to use this:
+  
+   Mask_<ConnectivityMatrixName>.nii #Contains: volume data for ROI mask
+ 
+ #once in order to create a RegionMapping_*.mat file:
+
+   RegionMapping_<SurfaceName>_<ConnectivityMatrixName>.mat
+
+ #which ideally has been hand checked by someone who knows the parcellation 
+ #and correct the mapping produced by the sort of automated mapping procedure 
+ #found in ScriptSurfaceToROI.m  
+
+### EoF ###

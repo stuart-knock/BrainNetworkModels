@@ -1,0 +1,63 @@
+% latex FHNeqn.tex
+% dvips -E -o FHNeqn.eps FHNeqn.dvi
+%
+
+\documentclass[12pt]{article}
+
+ \usepackage[dvips]{graphicx}
+
+%% The amssymb package provides various useful mathematical symbols
+ \usepackage{amssymb}
+  
+  \pagestyle{empty}
+  \thispagestyle{empty} 
+  \setlength{\parindent}{0mm}
+
+
+  \begin{document}
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d \phi_e}{dt} = \dot{\phi_e} $, \\
+   
+\vspace{0.5cm}
+  
+   $\displaystyle \frac{d \dot{\phi_e}}{dt} =   \gamma_e^2 (S(V_e) - \phi_e) - 2 \gamma_e \dot{\phi_e}  + v_e^2 \nabla^2 \phi_e $, \\
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d V_e}{dt}= \dot{V_e} $, \\
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d \dot{V_e}}{dt} =  \alpha \beta (\nu_{ee}\phi_e + \nu_{ei} S(V_i) + \nu_{es} S(V_s(t-\tau)) - V_e) - ( \alpha + \beta) \dot{V_e}$, \\
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d V_s}{dt}= \dot{V_s}$, \\
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d \dot{V_s}}{dt} =  \alpha \beta (\nu_{sn}\phi_n + \nu_{sr} S(V_r) + \nu_{se}\phi_e(t-\tau) - V_s)-( \alpha + \beta) \dot{V_s}$, \\
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d V_r}{dt} = \dot{V_r}$, \\
+
+\vspace{0.5cm}
+
+   $\displaystyle \frac{d \dot{V_r}}{dt} =  \alpha \beta (\nu_{re}\phi_e(t-\tau) + \nu_{rs} S(V_s) - V_r)-( \alpha + \beta) \dot{V_r}$, \\
+
+%\vspace{1cm}
+%BUT THINK IT SHOULD BE: \\
+%$\displaystyle \frac{d \dot{\phi_e}}{dt} = -\phi_e + S(V_e) \gamma^2 - 2 \gamma \dot{\phi_e} +  \nabla^2 \phi_e / r_e^2 $,
+%
+%\vspace{1cm}
+%v^2 \nabla^2 \phi_e
+%Where, $dx$ is distance between points and $\nabla^2 $ is the discrete laplacian???...
+
+ 
+
+
+  \end{document}
+%%%EoF%%%

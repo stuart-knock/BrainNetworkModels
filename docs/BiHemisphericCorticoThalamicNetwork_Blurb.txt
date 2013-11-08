@@ -1,0 +1,6 @@
+
+This figure shows a weighted directed connectivity matrix for a 190 region parcelation
+of a bihemispheric brain, including both cortex and thalamus. The matrix represents a
+fusion of connectivity data from the CoCoMac database and DSI-derived connectivity data
+from human subjects. Rows(vertical axis) are target nodes with connection strength
+colour coded, black indicating no connection and light blue the strongest connections.

@@ -1,0 +1,34 @@
+% latex GeneralEqnForm.tex 
+% dvips -E -o GeneralEqnForm.eps GeneralEqnForm.dvi
+%
+
+\documentclass[12pt]{article}
+
+ \usepackage[dvips]{graphicx}
+
+%% The amssymb package provides various useful mathematical symbols
+ \usepackage{amssymb}
+  
+  \pagestyle{empty}
+  \thispagestyle{empty} 
+  \setlength{\parindent}{0mm}
+
+
+  \begin{document}
+  
+    {\bf Derivative = Local dynamics + Coupling(time delays) + Noise}\\
+  
+    $\dot{\bf X}_i(t) = g({\bf X}_i) + h({\bf X}_i)\sum_{j=1}^{N}{\bf W}_{ij} S({\bf X}_j(t-\Delta t_{ij})) + {\bf n}_i(t)$ \\
+    
+    Where: \\
+    ${\bf X}_i$  are the state variables at position $i$; \\
+    $g(), h(), S()$ are, typically, non-linear functions of the state variables; \\
+    ${\bf W}_{ij}$ are the connection strengths between regions;\\
+    $\Delta t_{ij}$ are the time delays between regions;\\
+    ${\bf n}_i$ are a noise terms.
+    
+    
+    
+    
+  \end{document}
+%%%EoF%%%

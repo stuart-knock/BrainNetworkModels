@@ -1,0 +1,25 @@
+% latex LaplaceBeltrami.tex
+% dvips -E -o LaplaceBeltrami.eps LaplaceBeltrami.dvi
+%
+\documentclass[12pt]{article}
+
+ \usepackage[dvips]{graphicx}
+
+%% The amssymb package provides various useful mathematical symbols
+ \usepackage{amssymb}
+  
+  \pagestyle{empty}
+  \thispagestyle{empty} 
+  \setlength{\parindent}{0mm}
+ 
+ 
+  \begin{document}
+
+      $\displaystyle L^h_K f(w) = \frac{1}{4 \pi h^2} \sum_{t \in \mathcal{K}} 
+       \frac{\mathcal{A}}{\#t}  
+       \sum_{p \in \mathcal{V}(t)} e^{\frac{\|p-w\|^2}{4h}} (f(p) - f(w))$   
+    
+  \end{document}
+%%%EoF%%%
+
+

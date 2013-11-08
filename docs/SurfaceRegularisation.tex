@@ -1,0 +1,40 @@
+% SurfaceRegularisation.tex
+%
+\documentclass[12pt,a4paper]{article}
+
+ \begin{document}
+
+  \title{Cortical Surface Mesh Regularisation.}
+  \author{S.A. Knock}  % \and A.N. Researcher \and G.W. Payde
+  \date{\today}
+  \maketitle
+
+   Regularisation:
+   \begin{enumerate}
+    \item Check for and, if necessary, correct topological anomalies.
+    \item Split long edges, for a cortex of 150000+ vertices per 
+          hemisphere, all edges longer than 2mm should be split.
+    \item Shift vertices toward the centre of mass of their 1-ring, 
+          repeat several times with weighting between 0.3 and 0.5.
+    \item Recheck for long edges, split them.
+    \item Shift vertices toward centre of mass.
+    \item Remove degree 3 vertices where resultant triangle is smaller 
+          than upper limit for triangle size.
+    \item Collapse edges, targeting edges shorter than 0.1mm as well 
+          as the shortest edges of high degree vertices.
+    \item Shift vertices again.
+    \item Final check for Long edges, short edges, degree 3, and 
+          high degree vertices -- split, collapse and remove them 
+          as necessary.
+    \item Final shift of vertices. 
+   \end{enumerate}
+   This results in a regularised high resolution mesh, in order to 
+   provide a set of progressively lower resolution meshes with 
+   minimally different surface properties we need to simplify the 
+   mesh with the same biased criteria as the regularisation process.
+   However, it is important not to perform further shifting of the 
+   vertices as, when performed on lower resolution meshes, this 
+   procedure has an increasingly damaging effect on the mesh's 
+   correspondence to the surface being represented.
+
+  \end{document}
