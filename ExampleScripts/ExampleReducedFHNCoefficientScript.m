@@ -6,6 +6,9 @@
 % 1000Hz data, which we then save. 
 % (Network of 38 nodes should take about 30min on a Desktop circa 2008)
 %
+%
+% NOTE: This is a batch script example and so there is an exit at the end.
+%
 
 %% Some details of our environment...
 %Where is the code

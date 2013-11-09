@@ -1,5 +1,7 @@
 %% 
 %
+% NOTE: This is a batch script example and so there is an exit at the end.
+%
 %(Network of 38 nodes should take about 15min on a Desktop circa 2008)
 
 %% Some details of our environment...

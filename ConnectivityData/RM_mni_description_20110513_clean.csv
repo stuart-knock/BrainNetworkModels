@@ -1,0 +1,97 @@
+niftiValue,areaCaret,oldCocomacAcronym,areaCocomac,areaName,hemisphere,finalAssignment
+2,RM_TCpol,R00-TCpol,RM-TCpol,"temporal polar cortex",right,RM-TCpol_R
+3,RM_TCs,R00-TCs,RM-TCs,"superior temporal cortex",right,RM-TCs_R
+4,RM_Amyg,R00-Amyg,RM-Amyg,amygdala,right,RM-Amyg_R
+5,RM_PFCoi,R00-PFCoi,RM-PFCoi,"orbitoinferior prefrontal cortex",right,RM-PFCoi_R
+6,RM_Ia,R00-Ia,RM-IA,"anterior insula",right,RM-IA_R
+7,RM_PFCom,R00-PFCom,RM-PFCom,"orbitomedial prefrontal cortex",right,RM-PFCom_R
+8,RM_TCc,R00-TCc,RM-TCc,"central temporal cortex",right,RM-TCc_R
+9,RM_PFCol,R00-PFCol,RM-PFCol,"orbitolateral prefrontal cortex",right,RM-PFCol_R
+10,RM_TCi,R00-TCi,RM-TCi,"inferior temporal cortex",right,RM-TCi_R
+11,RM_PHC,R00-PHC,RM-PHC,"parahippocampal cortex",right,RM-PHC_R
+12,RM_G,R00-G,MM82a-G,"gustatory cortex",right,MM82a-G_R
+13,RM_PMCvl,R00-PMCvl,RM-PMCvl,"ventrolateral premotor cortex",right,RM-PMCvl_R
+14,RM_VACv,R00-VACv,RM-VACv,"anterior visual area, ventral part",right,RM-VACv_R
+15,RM_Ip,R00-Ip,RM-Ip,"posterior insula",right,RM-Ip_R
+16,RM_PFCpol,R00-PFCpol,RM-PFCpol,"prefrontal polar cortex",right,RM-PFCpol_R
+17,RM_HC,R00-HC,RM-HC,hippocampus,right,RM-HC_R
+18,RM_CCs,R00-CCs,RM-CCs,"subgenual cingulate cortex",right,RM-CCs_R
+19,RM_PFCvl,R00-PFCvl,RM-PFCvl,"ventrolateral prefrontal cortex",right,RM-PFCvl_R
+20,RM_V2,R00-V2,RM-V2,"visual area 2 (secondary visual cortex)",right,RM-V2_R
+21,RM_PFCm,R00-PFCm,RM-PFCm,"medial prefrontal cortex",right,RM-PFCm_R
+22,RM_TCv,R00-TCv,RM-TCv,"ventral temporal cortex",right,RM-TCv_R
+23,RM_VACd,R00-VACd,RM-VACd,"anterior visual area, dorsal part",right,RM-VACd_R
+24,RM_V1,R00-V1,RM-V1,"visual area 1 (primary visual cortex)",right,RM-V1_R
+25,RM_PFCcl,R00-PFCcl,RM-PFCcl,"centrolateral prefrontal cortex",right,RM-PFCcl_R
+26,RM_A2,R00-A2,RM-A2,"secondary auditory cortex",right,RM-A2_R
+27,RM_CCr,R00-CCr,RM-CCr,"retrosplenial cingulate cortex",right,RM-CCr_R
+28,RM_CCp,R00-CCp,RM-CCp,"posterior cingulate cortex",right,RM-CCp_R
+29,RM_CCa,R00-CCa,RM-CCa,"anterior cingulate cortex",right,RM-CCa_R
+30,RM_S2,R00-S2,RM-S2,"secondary somatosensory cortex",right,RM-S2_R
+31,RM_S1,R00-S1,RM-S1,"primary somatosensory cortex",right,RM-S1_R
+32,RM_A1,R00-A1,RM-A1,"primary auditory cortex",right,RM-A1_R
+33,RM_M1,R00-M1,RM-M1,"primary motor cortex",right,RM-M1_R
+34,RM_PCi,R00-PCi,RM-PCi,"inferior parietal cortex",right,RM-PCi_R
+35,RM_PCm,R00-PCm,RM-PCm,"medial parietal cortex",right,RM-PCm_R
+36,RM_PFCdm,R00-PFCdm,RM-PFCdm,"dorsomedial prefrontal cortex",right,RM-PFCdm_R
+37,RM_PCip,R00-PCip,RM-PCip,"intraparietal cortex",right,RM-PCip_R
+38,RM_PCs,R00-PCs,RM-PCs,"superior parietal cortex",right,RM-PCs_R
+39,RM_FEF,R00-FEF,RM-FEF,"frontal eye field",right,RM-FEF_R
+40,RM_PFCdl,R00-PFCdl,RM-PFCdl,"dorsolateral prefrontal cortex",right,RM-PFCdl_R
+41,RM_PMCm,R00-PMCm,RM-PMCm,"medial premotor cortex",right,RM-PMCm_R
+42,RM_PMCdl,R00-PMCdl,RM-PMCdl,"dorsolateral premotor cortex",right,RM-PMCdl_R
+51,-,-,-,"thalamic roi with major frontal connections",right,TM-F_R
+52,-,-,-,"thalamic roi with major temporal connections",right,TM-T_R
+53,-,-,-,"thalamic roi with major occipitoparietal connections",right,TM-OP_R
+61,-,GM-Cd,GM-Cd,"caudate nucleus",right,BG-Cd_R
+62,-,GM-Pu,GM-Pu,putamen,right,BG-Pu_R
+63,-,GM-GP,GM-GP,pallidum,right,BG-Pa_R
+64,-,RAP87-Acc,RAP87-Acc,"accumbens nucleus",right,BG-Acc_R
+102,RM_TCpol,R00-TCpol,RM-TCpol,"temporal polar cortex",left,RM-TCpol_L
+103,RM_TCs,R00-TCs,RM-TCs,"superior temporal cortex",left,RM-TCs_L
+104,RM_Amyg,R00-Amyg,RM-Amyg,amygdala,left,RM-Amyg_L
+105,RM_PFCoi,R00-PFCoi,RM-PFCoi,"orbitoinferior prefrontal cortex",left,RM-PFCoi_L
+106,RM_Ia,R00-Ia,RM-IA,"anterior insula",left,RM-IA_L
+107,RM_PFCom,R00-PFCom,RM-PFCom,"orbitomedial prefrontal cortex",left,RM-PFCom_L
+108,RM_TCc,R00-TCc,RM-TCc,"central temporal cortex",left,RM-TCc_L
+109,RM_PFCol,R00-PFCol,RM-PFCol,"orbitolateral prefrontal cortex",left,RM-PFCol_L
+110,RM_TCi,R00-TCi,RM-TCi,"inferior temporal cortex",left,RM-TCi_L
+111,RM_PHC,R00-PHC,RM-PHC,"parahippocampal cortex",left,RM-PHC_L
+112,RM_G,R00-G,MM82a-G,"gustatory cortex",left,MM82a-G_L
+113,RM_PMCvl,R00-PMCvl,RM-PMCvl,"ventrolateral premotor cortex",left,RM-PMCvl_L
+114,RM_VACv,R00-VACv,RM-VACv,"anterior visual area, ventral part",left,RM-VACv_L
+115,RM_Ip,R00-Ip,RM-Ip,"posterior insula",left,RM-Ip_L
+116,RM_PFCpol,R00-PFCpol,RM-PFCpol,"prefrontal polar cortex",left,RM-PFCpol_L
+117,RM_HC,R00-HC,RM-HC,hippocampus,left,RM-HC_L
+118,RM_CCs,R00-CCs,RM-CCs,"subgenual cingulate cortex",left,RM-CCs_L
+119,RM_PFCvl,R00-PFCvl,RM-PFCvl,"ventrolateral prefrontal cortex",left,RM-PFCvl_L
+120,RM_V2,R00-V2,RM-V2,"visual area 2 (secondary visual cortex)",left,RM-V2_L
+121,RM_PFCm,R00-PFCm,RM-PFCm,"medial prefrontal cortex",left,RM-PFCm_L
+122,RM_TCv,R00-TCv,RM-TCv,"ventral temporal cortex",left,RM-TCv_L
+123,RM_VACd,R00-VACd,RM-VACd,"anterior visual area, dorsal part",left,RM-VACd_L
+124,RM_V1,R00-V1,RM-V1,"visual area 1 (primary visual cortex)",left,RM-V1_L
+125,RM_PFCcl,R00-PFCcl,RM-PFCcl,"centrolateral prefrontal cortex",left,RM-PFCcl_L
+126,RM_A2,R00-A2,RM-A2,"secondary auditory cortex",left,RM-A2_L
+127,RM_CCr,R00-CCr,RM-CCr,"retrosplenial cingulate cortex",left,RM-CCr_L
+128,RM_CCp,R00-CCp,RM-CCp,"posterior cingulate cortex",left,RM-CCp_L
+129,RM_CCa,R00-CCa,RM-CCa,"anterior cingulate cortex",left,RM-CCa_L
+130,RM_S2,R00-S2,RM-S2,"secondary somatosensory cortex",left,RM-S2_L
+131,RM_S1,R00-S1,RM-S1,"primary somatosensory cortex",left,RM-S1_L
+132,RM_A1,R00-A1,RM-A1,"primary auditory cortex",left,RM-A1_L
+133,RM_M1,R00-M1,RM-M1,"primary motor cortex",left,RM-M1_L
+134,RM_PCi,R00-PCi,RM-PCi,"inferior parietal cortex",left,RM-PCi_L
+135,RM_PCm,R00-PCm,RM-PCm,"medial parietal cortex",left,RM-PCm_L
+136,RM_PFCdm,R00-PFCdm,RM-PFCdm,"dorsomedial prefrontal cortex",left,RM-PFCdm_L
+137,RM_PCip,R00-PCip,RM-PCip,"intraparietal cortex",left,RM-PCip_L
+138,RM_PCs,R00-PCs,RM-PCs,"superior parietal cortex",left,RM-PCs_L
+139,RM_FEF,R00-FEF,RM-FEF,"frontal eye field",left,RM-FEF_L
+140,RM_PFCdl,R00-PFCdl,RM-PFCdl,"dorsolateral prefrontal cortex",left,RM-PFCdl_L
+141,RM_PMCm,R00-PMCm,RM-PMCm,"medial premotor cortex",left,RM-PMCm_L
+142,RM_PMCdl,R00-PMCdl,RM-PMCdl,"dorsolateral premotor cortex",left,RM-PMCdl_L
+151,-,-,-,"thalamic roi with major frontal connections",left,TM-F_L
+152,-,-,-,"thalamic roi with major temporal connections",left,TM-T_L
+153,-,-,-,"thalamic roi with major occipitoparietal connections",left,TM-OP_L
+161,-,GM-Cd,GM-Cd,"caudate nucleus",left,BG-Cd_L
+162,-,GM-Pu,GM-Pu,putamen,left,BG-Pu_L
+163,-,GM-GP,GM-GP,pallidum,left,BG-Pa_L
+164,-,RAP87-Acc,RAP87-Acc,"accumbens nucleus",left,BG-Acc_L

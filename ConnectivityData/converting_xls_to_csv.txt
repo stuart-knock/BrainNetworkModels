@@ -1,0 +1,20 @@
+## Converting xls to csv
+
+
+xls2csv -x "cleanCallosalConnections_HagmannVsCocomac.xls" -c "cleanCallosalConnections_HagmannVsCocomac.csv" -a UTF-8
+
+xls2csv -x "centres_colin_left.xls" -c "centres_colin_left.csv" -a UTF-8
+xls2csv -x "centres_colin_right.xls" -c "centres_colin_right.csv" -a UTF-8
+xls2csv -x "centres_mni_left.xls" -c "centres_mni_left.csv" -a UTF-8
+xls2csv -x "centres_mni_right.xls" -c "centres_mni_right.csv" -a UTF-8
+xls2csv -x "centres_pals_left.xls" -c "centres_pals_left.csv" -a UTF-8
+xls2csv -x "centres_pals_right.xls" -c "centres_pals_right.csv" -a UTF-8
+xls2csv -x "centres_macaque_new_left.xls" -c "centres_macaque_new_left.csv" -a UTF-8
+xls2csv -x "centres_macaque_new_right.xls" -c "centres_macaque_new_right.csv" -a UTF-8
+
+xls2csv -x "cleanCallosalConnections_HagmannVsCocomac.xls" -c "cleanCallosalConnections_HagmannVsCocomac.csv" -a UTF-8
+
+xls2csv -x "RM_mni_description_20110513_clean.xls" -c "RM_mni_description_20110513_clean.csv" -a UTF-8
+
+xls2csv -x "RM.isCortex_20111020_clean.xls" -c "RM.isCortex_20111020_clean.csv" -a UTF-8
+
