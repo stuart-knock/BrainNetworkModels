@@ -8,18 +8,36 @@
 % Approximate storage: NA (save not included...:)
 %
 
-current_path = path;
+%% Some details of our environment...
+%Where is the code
+ CodeDir = '..';        %can be full or relative directory path
+ ScriptDir = pwd;       %get full path to this script
+ cd(CodeDir)            %Change to code directory
+ FullPathCodeDir = pwd; %get full path of CodeDir
+ 
+%Get separator for this OS
+ Sep = filesep;
 
-%% Add path to Surfaces
- SurfacesPath = genpath(fullfile(pwd,'Surfaces'));
- if ~any(findstr(SurfacesPath, current_path)),
-   path(SurfacesPath,path)
- end
-   
+%When and Where did we start:
+ CurrentTime = clock;
+ disp(['Script started on ' date ' at ' num2str(CurrentTime(4)) ':' num2str(CurrentTime(5)) ':' num2str(CurrentTime(6))]) 
+ if strcmp(Sep,'/'), %on a *nix machine, then write machine details to our log...
+   system('uname -a') 
+ end 
+ disp(['Script directory: ' ScriptDir])
+ disp(['Code directory: ' FullPathCodeDir])
+
+%% Do the stuff...
+
+%Add path to Surfaces
+ SurfacesPath = genpath(fullfile(FullPathCodeDir,'Surfaces'));
+ path(SurfacesPath,path)
+ 
+
 %% Load surface
  ThisSurface = 'reg13';
  load(['Cortex_' ThisSurface '.mat'], 'Vertices', 'Triangles'); %Contains: 'Vertices', 'Triangles', 'VertexNormals', 'TriangleNormals'
- tr = TriRep(Triangles,Vertices);
+ 
  NumberOfVertices = length(Vertices);
  
  
@@ -56,8 +74,17 @@ options.Other.verbosity = 1;
  options = SetInitialConditions(options);
 
 %% Beltrami-Laplace operator
- load(['LapOp_' ThisSurface '.mat'])
- options.Dynamics.LapOp = LapOp;
+ load(['LapOp_' ThisSurface '.mat'], 'LapOp')
+ if isoctave(), %this is becoming absurd...
+   row = LapOp.ir + 1;
+   col = zeros(size(LapOp.data));
+   for j = 1:(size(LapOp.jc, 2)-1),
+      col(LapOp.jc(j)+1:LapOp.jc(j+1)) = j;
+   end
+   options.Dynamics.LapOp = sparse(row, col, LapOp.data);
+ else %Presumably Matlab
+   options.Dynamics.LapOp = LapOp;
+ end
  clear LapOp
 
  
@@ -96,7 +123,7 @@ options.Other.verbosity = 1;
  end
  
  %% Make a Pruuutty picture...
-  
+  %tr = TriRep(Triangles,Vertices);
   %SurfaceMovie(tr, Store_phi_e(1:4:end,:), options.Connectivity.RegionMapping)
 
 

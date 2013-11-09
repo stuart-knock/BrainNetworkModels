@@ -17,7 +17,7 @@
 
 function [Fx Fy] = FHN(x,y,P)
 
- Fx = P.tau*(y + x - x.^3/3);
- Fy = (P.a - x - P.b*y)./P.tau; 
+ Fx = P.d * tau*(y + x - x.^3/3);
+ Fy = P.d * (P.a - x - P.b*y)./P.tau; 
  
 end % function FHN()

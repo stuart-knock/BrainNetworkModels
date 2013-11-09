@@ -319,12 +319,18 @@ function [Connectivity] = GetConnectivity(Connectivity)
     %Load the connectivity matrix data
      try
        temp = importdata(['ConnectivityData' Sep 'O52R00_IRP2008.txt'], ',');
+       %keyboard
      catch
        error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
      end
-     Connectivity.weights = temp.data;
+     if isoctave(),
+       Connectivity.weights = temp.data(2:end, 2:end);
+     else %Presumably Matlab
+       Connectivity.weights = temp.data; %TODO: Need to check if Matlab has changed with explicit ',' required by octave for importdata
+     end
      Connectivity.weights(isnan(Connectivity.weights)) = 0; %Set absent values to zero
      Connectivity.NodeStr = temp.textdata(2:end,1);
+     %keyboard
      
      %Load a cell array of strings containing more intuitive region names.
      %(Courtesy of RB.)
@@ -369,13 +375,20 @@ function [Connectivity] = GetConnectivity(Connectivity)
          
     %Load position data
      try %On my setup I can't get any xls to load in Octave. TODO: May be easier to transform all xls into a format that will be less painful... I hate .xls.
-       left  = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_left.xls']);  %Node position data, Left hemisphere
-       right = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_right.xls']); %Node position data, Right hemisphere 
+       left  = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_left.csv'], ',');  %Node position data, Left hemisphere
+       right = importdata(['ConnectivityData' Sep 'centres_' Connectivity.centres '_right.csv'], ','); %Node position data, Right hemisphere 
      catch
        error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io, java and importdata from forge...');
      end
+     %keyboard
+     if isoctave(),
+       left.data = left.data(:, 2:4);
+       right.data = right.data(:, 2:4);
+     else %Presumably Matlab
+       %TODO: Need to check if Matlab has changed with conversion to csv & explicit ',' required by octave for importdata
+     end
      ThalamusPosition = mean([left.data ; right.data],1); %No position data for thalamus, approximate by centre of cortical positions.
-     
+
      %Modify region names for locations to be consistent with naming for connectivity matrix...
      for j=1:length(right.textdata),
        right.textdata{j} = ['r' right.textdata{j}(4:end)];
@@ -427,7 +440,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
          PositionStr  = left.textdata;
          
        case 'both',
-         Connectivity.NodeStr = [Connectivity.NodeStr ; Connectivity.NodeStr];hemisphere
+         Connectivity.NodeStr = [Connectivity.NodeStr ; Connectivity.NodeStr];
          if ~isoctave(),
            Connectivity.NodeStrIntuitive = [Connectivity.NodeStrIntuitive ; Connectivity.NodeStrIntuitive];
          end
@@ -464,7 +477,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
                   
         %Load cortical interhemispheric data...
          try
-           CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.xls']);
+           CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.csv'], ',');
          catch
            error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
          end
@@ -472,12 +485,17 @@ function [Connectivity] = GetConnectivity(Connectivity)
          LabelMapping        = cell(1,36);
          DSIlabel            = cell(1,36);
          for j = 2:37,
-           InterHemisphericStr{1,j-1} = CallosalConnections.textdata.Sheet1{j,4};
-           LabelMapping{1,j-1}  = CallosalConnections.textdata.Sheet1{j,2};
-           DSIlabel{1,j-1}      = CallosalConnections.textdata.Sheet1{j,1};
+           InterHemisphericStr{1,j-1} = CallosalConnections.textdata{j,4};
+           LabelMapping{1,j-1}  = CallosalConnections.textdata{j,2};
+           DSIlabel{1,j-1}      = CallosalConnections.textdata{j,1};
          end
-         InterHemispheric = CallosalConnections.data.Sheet1(:,5);
-        
+         if isoctave(),
+           InterHemispheric = CallosalConnections.data(2:37,5);
+         else %Presumably Matlab
+            InterHemispheric = CallosalConnections.data(:,5); %TODO: Need to check if Matlab has changed with explicit ',' required by octave for importdata
+         end
+         %keyboard
+         
         %Load the DSI connectivity matrix data
          DSI = load(['ConnectivityData' Sep 'for_Vik_July11.mat'], 'CIJreg_mean', 'LENreg_mean', 'anatlbls'); %Contains:  CIJreg_mean, LENreg_mean, anatlbls
          DSI.anatlbls = strtrim(cellstr(DSI.anatlbls));

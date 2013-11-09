@@ -56,28 +56,36 @@
  %Initialise defaults
  options.Dynamics = SetDynamicParameters(options.Dynamics);
  options = SetIntegrationParameters(options);
- options.Integration.iters = 2^8;
  options = SetDerivedParameters(options);
  options = SetInitialConditions(options);
 
  %Beltrami-Laplace operator
  load(['LapOp_' ThisSurface '.mat'], 'LapOp');
- options.Dynamics.LapOp = LapOp;
+ if isoctave(), %this is becoming absurd...
+   row = LapOp.ir + 1;
+   col = zeros(size(LapOp.data));
+   for j = 1:(size(LapOp.jc, 2)-1),
+      col(LapOp.jc(j)+1:LapOp.jc(j+1)) = j;
+   end
+   options.Dynamics.LapOp = sparse(row, col, LapOp.data);
+ else %Presumably Matlab
+   options.Dynamics.LapOp = LapOp;
+ end
  clear LapOp
  
- %Integrate teh network model
+ %Integrate the network model
  [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRWtess_heun(options);
 
 %% Save results to the directory of the invoking script
- %ResultsPathFile = [ScriptDir Sep mfilename '.mat'];
- %save(ResultsPathFile)
- %disp(['Saved results of calculation to: ' ResultsPathFile])
+ ResultsPathFile = [ScriptDir Sep mfilename '.mat'];
+ save(ResultsPathFile)
+ disp(['Saved results of calculation to: ' ResultsPathFile])
 
 %% When did we finish:
  CurrentTime = clock;
  disp(['Script ended on ' date ' at ' num2str(CurrentTime(4)) ':' num2str(CurrentTime(5)) ':' num2str(CurrentTime(6))])
 
 %% Always exit at the end when batching... 
- %exit
+ exit
  
 %%% EoF %%%
