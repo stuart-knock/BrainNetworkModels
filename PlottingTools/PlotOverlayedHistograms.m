@@ -20,6 +20,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(27-10-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [HistObjHandles FigureHandle] = PlotOverlayedHistograms(Data,NumberOfBins,DataLabels,Normalise)

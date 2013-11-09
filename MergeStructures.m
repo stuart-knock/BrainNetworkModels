@@ -23,6 +23,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(06-01-2010) -- Original (Modified from CompleteOptions()).
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

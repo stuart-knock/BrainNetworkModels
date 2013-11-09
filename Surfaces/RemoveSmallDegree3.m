@@ -18,6 +18,8 @@
 %     SAK(22-10-2010) -- Original.
 %     SAK(14-02-2011) -- Fixed bug where the added triangle had the wrong 
 %                        orientation sense relative to surrounding surface. 
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [Vertices Triangles] = RemoveSmallDegree3(tr,MaximumArea)

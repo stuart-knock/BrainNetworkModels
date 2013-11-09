@@ -25,6 +25,8 @@
 %     SAK(19-11-2010) -- Added calc of nRing, which is a vector specifying 
 %                        the number of vertices in each of the nRings from 
 %                        1 through to Neighbourhood.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

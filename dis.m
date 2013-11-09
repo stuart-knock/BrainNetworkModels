@@ -36,6 +36,8 @@
 %     MB(2003) -- Original 
 %     SAK(07-08-2006) -- comment.
 %     SAK(11-08-2008) -- optimised...
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function y=dis(a,b)

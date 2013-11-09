@@ -21,6 +21,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(16-02-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function PlotRegionAveragedTimeSeries(TimeSeries, Connectivity, Time)

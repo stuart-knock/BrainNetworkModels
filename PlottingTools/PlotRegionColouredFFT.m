@@ -25,6 +25,8 @@
 % MODIFICATION HISTORY:
 %     SAK(07-05-2009) -- Original.
 %     SAK(02-12-2010) -- Rewrite with "Mapping" structure.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [FigureHandle pY f] = PlotRegionColouredFFT(TimeSeries,Mapping,SampleRateHz)

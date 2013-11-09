@@ -23,6 +23,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(28-11-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [TriangleAreas, TotalSurfaceArea] = GetSurfaceAreas(tr, TheseTriangles)

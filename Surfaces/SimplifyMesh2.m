@@ -14,6 +14,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(05-10-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %DownsampleTo = 2^16; % DownsampleTo = 2^15; % DownsampleTo = 2^14; % DownsampleTo = 2^13; % DownsampleTo = 2^12; %
 

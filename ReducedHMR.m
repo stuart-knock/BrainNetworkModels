@@ -48,6 +48,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(24-11-2009) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [Fx Fy Fz Fw Fv Fu] = ReducedHMR(x, y, z, w, v, u, P)

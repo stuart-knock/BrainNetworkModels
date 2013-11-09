@@ -32,6 +32,8 @@ function D = MeshDistance(G)
 %2007: original
 %2009-08-04: min() function vectorized
 % SAK(15-11-2010) -- minor mod to only return vector of distance from first node...
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 
  n = length(G);
  D = zeros(1,n); D(1,2:end) = inf;           %distance matrix

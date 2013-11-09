@@ -35,12 +35,14 @@
  ThisSurface = 'reg13';
  load(['Cortex_' ThisSurface '.mat'], 'Vertices', 'Triangles'); %Contains: 'Vertices', 'Triangles'
  
- % Connectivity
+ %Connectivity
  options.Connectivity.WhichMatrix = 'O52R00_IRP2008';
  options.Connectivity.hemisphere = 'both';
  options.Connectivity.RemoveThalamus = true;
  options.Connectivity.invel = 1/4;
  options.Connectivity = GetConnectivity(options.Connectivity);
+
+ %Dynamic Model
  options.Dynamics.WhichModel = 'BRRWtess';
  options.Dynamics.BrainState = 'ec';
  

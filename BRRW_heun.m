@@ -109,6 +109,8 @@
 %                        of other minor optimisations... (speedup ~15x)
 %     SAK(17-09-2009) -- Default noise => 0. Cleaned up parameter initialisation.
 %     SAK(30-11-2009) -- Modified from fhn_net_heun()
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

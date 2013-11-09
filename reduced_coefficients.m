@@ -61,6 +61,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(7-09-2009) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function options = reduced_coefficients(options)

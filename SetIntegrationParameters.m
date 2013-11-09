@@ -17,6 +17,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(<dd-mm-yyyy>) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function options = SetIntegrationParameters(options)

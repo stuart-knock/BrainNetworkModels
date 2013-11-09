@@ -23,6 +23,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(06-03-2012) -- Original, from scattered existing scripts.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [IsolatedVertices, PinchedOff, Holes] = CheckSurface(tr)

@@ -31,6 +31,8 @@
 % MODIFICATION HISTORY:
 %     SAK(21-09-2009) -- Original.
 %     SAK(DD-MM-YYYY) -- 
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

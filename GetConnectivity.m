@@ -97,11 +97,17 @@
 %                        others are currrently wrong... All orientation had
 %                        simply been kept cosistent with original
 %                        implementation which used RM_AC... TODO: check.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [Connectivity] = GetConnectivity(Connectivity)
 
  Sep = filesep; %Get the appropriate directory separator for this OS
+
+ if isoctave(),
+   pkg load io
+ end
  
  Connectivity.HaveRotatedWeights = false; %Fresshly loading so they have original sense...
 

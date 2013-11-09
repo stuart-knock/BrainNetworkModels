@@ -34,6 +34,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(12-01-2011) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [SurfaceSummaryInfo] = GetSurfaceSummaryInfo(tr)

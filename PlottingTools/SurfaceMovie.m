@@ -26,6 +26,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(19-11-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %TODO: Make Mapping a structure containg a projection matrix & cell array 

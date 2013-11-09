@@ -13,6 +13,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(15-10-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [LittleTrianglesGlobalIndex LittleTriangleArea LittleTriangles NonRedundantEdges] = GetLittleTriangles(tr,MaximumTriangleArea)

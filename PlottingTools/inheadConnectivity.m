@@ -14,6 +14,8 @@
 % MODIFICATION HISTORY:
 %     SAK(09-04-2009) -- Original.
 %     SAK(06-05-2009) -- Modified to (ThisMatrix,options) calling format.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

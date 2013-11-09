@@ -19,6 +19,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(13-01-2011) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [ThisFigure SurfaceHandle] = SurfaceMesh(Surface, SurfaceShading)

@@ -17,6 +17,8 @@
 %     SAK(12-03-2010) -- Original.
 %     SAK(08-10-2010) -- Corrected bug in cycle through angles, had been
 %                        calculating angles at vertices 1, 2 and 1 again...
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

@@ -1,21 +1,28 @@
-%% <Description>
+%% Create plot of time-series, with vertical space between lines, one window 
+% for each mode, like typical EEG view.
 %
 % ARGUMENTS:
-%           <arg1> -- <description>
+%           TimeSeries -- As output from a simulation, ie with 
+%                         shape = [tpts, nodes, modes]
+%           time -- vector of time values, with length = tpts
+%           labels -- node labels, eg options.Connectivity.NodeStr 
 %
 % OUTPUT: 
-%           <output1> -- <description>
+%           figure_handles -- cell array of figure handles.
 %
 % USAGE:
 %{
-      
+      %Having run, for example, reduced_fhn_demo:
+      PlotTimeSeries(store_Alfa, store_t, options.Connectivity.NodeStr)
 %}
 %
 % MODIFICATION HISTORY:
 %     SAK(16-02-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function PlotTimeSeries(TimeSeries, time, labels)
+function figure_handles = PlotTimeSeries(TimeSeries, time, labels)
 
  ThisStateVariable = inputname(1);
  [TimeSteps NumberOfNodes NumberOfModes ] = size(TimeSeries);
@@ -40,7 +47,7 @@ function PlotTimeSeries(TimeSeries, time, labels)
 
 
   for nom=1:NumberOfModes,
-    figure,
+    figure_handles{nom} = figure,
     plot(time, TimeSeries(:,:,nom) + SeparateBy(1,nom)*repmat((1:NumberOfNodes),[TimeSteps,1]));
     title([ThisStateVariable '    Mode ' num2str(nom) ' of ' num2str(NumberOfModes)], 'interpreter', 'none');
     xlabel('Time()');

@@ -13,6 +13,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(30-09-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function SurfaceCurvature = GetSurfaceCurvature(tr,VertexNormals,TheseVertices)

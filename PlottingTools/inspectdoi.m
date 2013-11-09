@@ -39,6 +39,8 @@
 %     AJL (Nov-2006) -- Original
 %     SAK(24-11-2006) -- Slight modifications: generalised for all dnn*; colourmap; ranges; forward & backward; comments.
 %     SAK(12-07-2007) -- Modified from inspectdnn
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %NEED AVERAGE OVER CHANNELS AS WELL AS INDIVIDUAL CHANNELS...

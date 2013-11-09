@@ -80,6 +80,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(28-11-2010) -- Original: derived from FHN_heun().
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

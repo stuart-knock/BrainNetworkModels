@@ -37,6 +37,8 @@
 %     SAK(17-05-2011) -- Changed to use geodesic distance function, 
 %                        perform_fast_marching_mesh(), instead of the graph
 %                        path-length based function, MeshDistance().
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [LapOp, Convergence] = MeshLaplacian(TR, Neighbourhood, MeanEdgeLength)  

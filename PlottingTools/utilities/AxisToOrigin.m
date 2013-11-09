@@ -28,6 +28,8 @@
 %     SAK(26-03-2010) -- Modified from Michael Robbins' Plot3AxisAtOrigin(). 
 %     SAK(29-03-2010) -- Added AxisHandle arg for figures using subplot etc.
 %                        Other minor modifications and bug fixes.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%

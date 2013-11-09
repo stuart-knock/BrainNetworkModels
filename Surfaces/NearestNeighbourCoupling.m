@@ -23,6 +23,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(24-11-2010) -- Original: from MeshLaplacian().
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [LocalCoupling] = NearestNeighbourCoupling(tr, Neighbourhood)

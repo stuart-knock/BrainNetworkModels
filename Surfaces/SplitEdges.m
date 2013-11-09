@@ -14,6 +14,8 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(30-09-2010) -- Original.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [Vertices Triangles NeedsToBeRunAgain] = SplitEdges(tr, MaximumEdgeLength, MaximumNumber, EdgesToSplit)   

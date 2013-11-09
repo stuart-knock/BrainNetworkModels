@@ -14,6 +14,8 @@
 % MODIFICATION HISTORY:
 %     SAK(09-04-2009) -- Original.
 %     SAK/ARM(07-05-2009) -- Rest State Network grouping for DSI matrix added.
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function Regions = GroupRegions(Metric,Index,NodeStr,ThisMatrix,options)

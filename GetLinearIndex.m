@@ -22,6 +22,8 @@
 %     SAK(17-09-2009) -- Original.
 %     SAK(03-12-2009) -- Changed N to N1,N2 to reuse for vector of
 %                        corticothalamic delays...
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
