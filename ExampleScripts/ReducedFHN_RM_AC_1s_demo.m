@@ -7,7 +7,7 @@
 % Approximate storage: 60MB 
 %
 % Under *nix, run without GUI using: 
-%     batch -f ./run_reduced_fhn_demo&
+%     batch -f ./run_ReducedFHN__RM_AC_1s_demo &
 %
 
 %% Some details of our environment...
@@ -88,7 +88,7 @@
   store_Btta = zeros(Continuations .* DownSampledIters, N, M);
   store_t    = zeros(Continuations .* DownSampledIters, 1);
   
- %% Simulate
+%% Simulate
   for k = 1:Continuations,
     disp(['Continuation ' num2str(k) ' of ' num2str(Continuations) '...'])
     
@@ -107,14 +107,14 @@
   end
   clear Xi Eta Alfa Btta t
 
+
 %% Save results to the directory of the invoking script
   save([ScriptDir filesep 'reducedfhn_RM_AC_1s_demo.mat'])
 
 %% When did we finish:
-  CurrentTime = clock;
   disp(['Script ended: ' when()])
 
 %% Always exit at the end when batching... 
-  %exit
+  exit
  
 %%%EoF%%%

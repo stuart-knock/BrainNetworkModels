@@ -1,1 +1,1 @@
-matlab -nodisplay -nodesktop -nojvm -nosplash -r ExampleScript_ReducedFHN > ExampleScript_ReducedFHN_Log.txt &
+matlab -nodisplay -nodesktop -nojvm -nosplash -r ReducedFHN_RM_AC_1s_demo > ReducedFHN_RM_AC_1s_demo_Log.txt &

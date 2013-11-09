@@ -7,27 +7,27 @@
 % Approximate storage: 57MB 
 %
 % Under *nix, run without GUI using: 
-%     batch -f ./run_reduced_fhn_demo&
+%     batch -f ./run_ReducedHMR__RM_AC_1s_demo &
 %
 
 %% Some details of our environment...
-%Where is the code
- CodeDir = '..';        %can be full or relative directory path
- ScriptDir = pwd;       %get full path to this script
- cd(CodeDir)            %Change to code directory
- FullPathCodeDir = pwd; %get full path of CodeDir
-
+  %Where is the code
+  CodeDir = '..';        %can be full or relative directory path
+  ScriptDir = pwd;       %get full path to this script
+  cd(CodeDir)            %Change to code directory
+  FullPathCodeDir = pwd; %get full path of CodeDir
+  
   if isoctave(),
     more off
   end
 
-%When and Where did we start:
- disp(['Script started: ' when()]) 
- if strcmp(filesep,'/'), %on a *nix machine, then write machine details to our log...
-   system('uname -a') 
- end 
- disp(['Script directory: ' ScriptDir])
- disp(['Code directory: ' FullPathCodeDir])
+  %When and Where did we start:
+  disp(['Script started: ' when()]) 
+  if strcmp(filesep, '/'), %on a *nix machine, then write machine details to our log...
+    system('uname -a') 
+  end 
+  disp(['Script directory: ' ScriptDir])
+  disp(['Code directory: ' FullPathCodeDir])
  
 %% Do the stuff... 
 
@@ -38,7 +38,7 @@
   options.Connectivity.invel = 1.0/Velocity;
   options.Connectivity = GetConnectivity(options.Connectivity);
 
-  %No-default scaling factor for coupling through the Connectivity
+  %Non-default scaling factor for coupling through the Connectivity
   %options.Dynamics.csf = 0.00042;
 
   %Dynamic Model:
@@ -87,7 +87,7 @@
   store_Gamma = zeros(Continuations .* DownSampledIters, N, M);
   store_t     = zeros(Continuations .* DownSampledIters, 1);
   
- %% Simulate
+%% Simulate
   for k = 1:Continuations,
     disp(['Continuation ' num2str(k) ' of ' num2str(Continuations) '...'])
     
@@ -107,17 +107,15 @@
     options = UpdateInitialConditions(options);
   end
   clear Xi Eta Tau Alfa Btta Gamma t
-  
 
 
 %% Save results to the directory of the invoking script
- save([ScriptDir filesep 'reducedhmr_RM_AC_1s_demo.mat'])
+  save([ScriptDir filesep 'reducedhmr_RM_AC_1s_demo.mat'])
 
 %% When did we finish:
- CurrentTime = clock;
- disp(['Script ended on ' date ' at ' num2str(CurrentTime(4)) ':' num2str(CurrentTime(5)) ':' num2str(CurrentTime(6))])
+  disp(['Script ended: ' when()])
 
 %% Always exit at the end when batching... 
- %exit
+  exit
  
 %%%EoF%%%

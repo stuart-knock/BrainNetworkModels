@@ -1,1 +1,1 @@
-matlab -nodisplay -nodesktop -nojvm -nosplash -r ExampleScript_ReducedHMR  > ExampleScript_ReducedHMR_Log.txt &
+matlab -nodisplay -nodesktop -nojvm -nosplash -r ReducedHMR_RM_AC_1s_demo  > ReducedHMR_RM_AC_1s_demo_Log.txt &
