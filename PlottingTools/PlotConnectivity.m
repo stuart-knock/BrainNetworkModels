@@ -1,14 +1,22 @@
-%% <Description>
+%% Plot Connectivity weights and delays as colour scaled 2d matrices.
 %
 % ARGUMENTS:
-%           <arg1> -- <description>
+%           Connectivity -- a structure containing the options, specific to
+%                           each matrix. In addition to the fields described in
+%                           GetConnectivity(), there is one plot specific field:
+%               .Order -- A vector specifying the order in which to plot nodes.
+%                         
 %
 % OUTPUT: 
 %           <output1> -- <description>
 %
+% REQUIRES: 
+%          GetConnectivity() -- A function for loading connectivity data.
+%
 % USAGE:
 %{
-      <example-commands-to-make-this-function-run>
+      Connectivity.WhichMatrix = 'RM_AC';
+      PlotConnectivity(Connectivity)
 %}
 %
 % MODIFICATION HISTORY:
@@ -19,106 +27,104 @@
 
 
 function PlotConnectivity(Connectivity)
-% Default the "delay" matrix to be a distance matrix
-if ~isfield(Connectivity,'invel'), 
-  Connectivity.invel = 1;
-end
+  % Default the "delay" matrix to be a distance matrix
+  if ~isfield(Connectivity,'invel'), 
+    Connectivity.invel = 1;
+  end
  
 %% Get the connectivity matrix...
- 
- Connectivity = GetConnectivity(Connectivity);
+  Connectivity = GetConnectivity(Connectivity);
      
- %clean up self connection weights from the DSI martix...
+  %clean up self connection weights from the DSI matrix...
   Connectivity.weights = Connectivity.weights .* ~eye(size(Connectivity.weights));
  
- if nargin==1,
-   Order = 1:Connectivity.NumberOfNodes;
- else
-   if isfield(Connectivity,'Order'),
-     Order = Connectivity.Order;
-   else
-     Order = 1:Connectivity.NumberOfNodes;
-   end
- end
- 
+  if nargin==1,
+    Order = 1:Connectivity.NumberOfNodes;
+  else
+    if isfield(Connectivity,'Order'),
+      Order = Connectivity.Order;
+    else
+      Order = 1:Connectivity.NumberOfNodes;
+    end
+  end
+
 %% Make the titles
- switch Connectivity.WhichMatrix
-   case {'G_20110513' }
-     for k = 1:Connectivity.NumberOfNodes, 
-       Connectivity.NodeStr{k} = Connectivity.NodeStr{k}(1:end-2); 
-     end
-     WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
-     DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
-   case {'RM_AC' 'NearestNeighbour' 'Local' 'Random' 'AllToAll'}
-     WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
-     DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
-   case {'for_Vik_July11'}
-     WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
-     DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
-     if isfield(Connectivity,'subject'),
-       WeightsTitle = [WeightsTitle ' Subject: ' num2str(Connectivity.subject)];
-       DelaysTitle  = [DelaysTitle  ' Subject: ' num2str(Connectivity.subject)];
-     end
-   case {'O52R00_IRP2008'}
-     WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
-     DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
-     if isfield(Connectivity,'centres'),
-       WeightsTitle = [WeightsTitle ' Centres: ' Connectivity.centres];
-       DelaysTitle  = [DelaysTitle  ' Centres: ' Connectivity.centres];
-     end
-     if isfield(Connectivity,'hemisphere'),
-       WeightsTitle = [WeightsTitle ' Hemisphere: ' Connectivity.hemisphere];
-       DelaysTitle  = [DelaysTitle  ' Hemisphere: ' Connectivity.hemisphere];
-     end
-   otherwise
-     error(strcat(mfilename,':UnknownConnectionMatrix'), ['Don''t know how to load this matrix...' Connectivity.WhichMatrix]);
- end
+  switch Connectivity.WhichMatrix
+    case {'G_20110513' }
+      for k = 1:Connectivity.NumberOfNodes, 
+        Connectivity.NodeStr{k} = Connectivity.NodeStr{k}(1:end-2); 
+      end
+      WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
+      DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
+    case {'RM_AC' 'NearestNeighbour' 'Local' 'Random' 'AllToAll'}
+      WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
+      DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
+    case {'for_Vik_July11'}
+      WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
+      DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
+      if isfield(Connectivity,'subject'),
+        WeightsTitle = [WeightsTitle ' Subject: ' num2str(Connectivity.subject)];
+        DelaysTitle  = [DelaysTitle  ' Subject: ' num2str(Connectivity.subject)];
+      end
+    case {'O52R00_IRP2008'}
+      WeightsTitle = ['Weights for ' Connectivity.WhichMatrix];
+      DelaysTitle  = ['Delays(ms) for V = ' num2str(Connectivity.invel) ' m/s for ' Connectivity.WhichMatrix];
+      if isfield(Connectivity,'centres'),
+        WeightsTitle = [WeightsTitle ' Centres: ' Connectivity.centres];
+        DelaysTitle  = [DelaysTitle  ' Centres: ' Connectivity.centres];
+      end
+      if isfield(Connectivity,'hemisphere'),
+        WeightsTitle = [WeightsTitle ' Hemisphere: ' Connectivity.hemisphere];
+        DelaysTitle  = [DelaysTitle  ' Hemisphere: ' Connectivity.hemisphere];
+      end
+    otherwise
+      error(strcat(mfilename,':UnknownConnectionMatrix'), ['Don''t know how to load this matrix...' Connectivity.WhichMatrix]);
+  end
  
 %% Create a figure with colourmap to Emphasise large numbers
- figure
- load('BlackToBlue'); 
- set(gcf,'Colormap',BlackToBlue); 
+  figure
+  load('BlackToBlue'); 
+  set(gcf,'Colormap',BlackToBlue); 
 
 %% Weights
- imagesc(Connectivity.weights(Order,Order));
- titleHandle = title(WeightsTitle,'interpreter','none');
- set(titleHandle, 'FontWeight','bold');
+  imagesc(Connectivity.weights(Order,Order));
+  titleHandle = title(WeightsTitle,'interpreter','none');
+  set(titleHandle, 'FontWeight','bold');
    
- daspect([1 1 1]);
- set(gca,'XTick', 1:length(Order),'FontWeight','bold','FontSize',10);
- set(gca,'YTick', 1:length(Order),'FontWeight','bold','FontSize',10);
- set(gca,'XTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
- set(gca,'YTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
- imrotateticklabel(gca,90);
- set(gca,'ZColor',[0.2471 0.2471 0.2471],...
-         'YColor',[0.2471 0.2471 0.2471],...
-         'XColor',[0.2471 0.2471 0.2471],...
-         'Color',[0 0 0],'FontSize',16);
- colorbar
+  daspect([1 1 1]);
+  set(gca,'XTick', 1:length(Order),'FontWeight','bold','FontSize',10);
+  set(gca,'YTick', 1:length(Order),'FontWeight','bold','FontSize',10);
+  set(gca,'XTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
+  set(gca,'YTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
+  imrotateticklabel(gca,90);
+  set(gca,'ZColor',[0.2471 0.2471 0.2471],...
+          'YColor',[0.2471 0.2471 0.2471],...
+          'XColor',[0.2471 0.2471 0.2471],...
+          'Color',[0 0 0],'FontSize',16);
+  colorbar
 
        
 %% Create a figure with colourmap to Emphasise small numbers
- figure
- load('GreenToBlack')
- set(gcf,'Colormap',GreenToBlack) 
+  figure
+  load('GreenToBlack')
+  set(gcf,'Colormap',GreenToBlack) 
  
 %% Delays
- Connectivity.delay(Connectivity.weights==0) = Inf;
- imagesc(Connectivity.delay(Order,Order));
- titleHandle = title(DelaysTitle,'interpreter','none');
- set(titleHandle, 'FontWeight','bold');
-   
- daspect([1 1 1]);
- set(gca,'XTick', 1:length(Order),'FontWeight','bold','FontSize',10);
- set(gca,'YTick', 1:length(Order),'FontWeight','bold','FontSize',10);
- set(gca,'XTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
- set(gca,'YTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
- imrotateticklabel(gca,90);
- set(gca,'ZColor',[0.2471 0.2471 0.2471],...
-         'YColor',[0.2471 0.2471 0.2471],...
-         'XColor',[0.2471 0.2471 0.2471],...
-         'Color',[0 0 0],'FontSize',16);
- colorbar
+  Connectivity.delay(Connectivity.weights==0) = Inf;
+  imagesc(Connectivity.delay(Order,Order));
+  titleHandle = title(DelaysTitle,'interpreter','none');
+  set(titleHandle, 'FontWeight','bold');
+  
+  daspect([1 1 1]);
+  set(gca,'XTick', 1:length(Order),'FontWeight','bold','FontSize',10);
+  set(gca,'YTick', 1:length(Order),'FontWeight','bold','FontSize',10);
+  set(gca,'XTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
+  set(gca,'YTickLabel', Connectivity.NodeStr(Order),'FontWeight','bold','FontSize',10);
+  imrotateticklabel(gca,90);
+  set(gca,'ZColor',[0.2471 0.2471 0.2471],...
+          'YColor',[0.2471 0.2471 0.2471],...
+          'XColor',[0.2471 0.2471 0.2471],...
+          'Color',[0 0 0],'FontSize',16);
+  colorbar
 
- 
 end %function PlotConnectivity()

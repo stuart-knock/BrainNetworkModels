@@ -8,6 +8,7 @@
 % Approximate storage: NA (save not included...:)
 %
 
+
 %% Some details of our environment...
   %Where is the code
   CodeDir = '..';        %can be full or relative directory path
@@ -55,7 +56,7 @@
  
   %Dynamic Model:
   options.Dynamics.WhichModel = 'BRRWtess';
-  options.Dynamics.BrainState = 'eo';
+  options.Dynamics.BrainState = 'eo'; %Default eyes open parameter set.
 
   %Default Dynamic Parameters
   options.Dynamics = SetDynamicParameters(options.Dynamics);
@@ -90,7 +91,7 @@
 
 
 %% initial integration, to clear transient
-  Continuations = 6;
+  Continuations = 8;
   for k = 1:Continuations,
     disp(['Continuation ' num2str(k) ' of ' num2str(Continuations) ' for initial integration...'])
    
@@ -113,7 +114,7 @@
 
 %% Simulate noise driven rest-state
   for k = 1:Continuations,
-    disp(['Continuation ' num2str(k) ' of ' num2str(Continuations) '...'])
+    disp(['Continuation ' num2str(k) ' of ' num2str(Continuations) ' for rest-state simulation...'])
     
     options.Dynamics.phi_n = 1e-3 + 0.01e-3*randn(size(options.Dynamics.phi_n));
     [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRWtess_heun(options);

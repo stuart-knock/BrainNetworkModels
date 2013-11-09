@@ -1,14 +1,21 @@
-%% <Description>
+%% Fitz-Hugh Nagumo model.
 %
 % ARGUMENTS:
-%           <arg1> -- <description>
+%          x -- Previous state of the slow variable.
+%          y -- Previous state of the fast variable.
+%          P -- A structure containing the parameter definitions.
 %
 % OUTPUT: 
-%           <output1> -- <description>
+%          Fx -- <description>
+%          Fy -- <description>
+%
+% REQUIRES: 
+%          none
 %
 % USAGE:
 %{
-      <example-commands-to-make-this-function-run>
+      %As called from within FHN_heun.m
+      [Fx0 Fy0] = FHN(x,y,options.Dynamics);
 %}
 %
 % MODIFICATION HISTORY:
@@ -19,7 +26,7 @@
 
 function [Fx Fy] = FHN(x,y,P)
 
- Fx = P.d * tau*(y + x - x.^3/3);
- Fy = P.d * (P.a - x - P.b*y)./P.tau; 
- 
+  Fx = P.d * P.tau*(y + x - x.^3/3.0);
+  Fy = P.d * (P.a - x - P.b*y)./P.tau;
+
 end % function FHN()

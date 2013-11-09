@@ -30,16 +30,18 @@
 %                                Possible values = {'resampled', 'fbden'};
 %
 % OUTPUT: 
-%           weights -- Matrix of connection weights between regions
-%           delay   -- Matrix of time delays between regions
-%           NodeStr -- A cell array containing strings fro labelling each
-%                      region in the matrix.
-%           Position -- Euclidean coordinates for centre of regions, mm
-%           NumberOfNodes -- Number of regions comprising the parcellation.
+%          Connectivity -- the data is returned in the same structure that is
+%                          passed in. Added fields include:
+%              .weights -- Matrix of connection weights between regions
+%              .delay   -- Matrix of time delays between regions
+%              .NodeStr -- A cell array containing strings fro labelling each
+%                          region in the matrix.
+%              .Position -- Euclidean coordinates for centre of regions, mm
+%              .NumberOfNodes -- Number of regions comprising the parcellation.
 %
-%       Additionally, for 'O52R00_IRP2008':
-%           ThalamicNodes -- Logical vector, identifies thalamic nodes.
-%           LeftNodes -- Logical vector, identifies left hemisphere nodes.
+%          Additionally, for 'O52R00_IRP2008':
+%              .ThalamicNodes -- Logical vector, identifies thalamic nodes.
+%              .LeftNodes -- Logical vector, identifies left hemisphere nodes.
 %
 % REQUIRES:
 %           dis -- A function for calculating Euclidean distance between sets of points.

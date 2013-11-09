@@ -1,4 +1,5 @@
 %% Basic simulation for timing comparison with Python implementation
+% To generate 16ms of data the run time should be ~ 0.1 seconds
 tic,
 
  options.Connectivity.WhichMatrix = 'for_Vik_July11';
