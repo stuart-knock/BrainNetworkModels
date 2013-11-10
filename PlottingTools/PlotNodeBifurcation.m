@@ -19,8 +19,13 @@
 %
 % OUTPUT: 
 %          
-%          options -- with added V and W timeseries produced by the 
-%                     integration, useful for subsequent continuation
+%          FigureHandles -- cell array of figure handles, there is one figure
+%                           produced per state-variable.
+%
+%
+% REQUIRES: 
+%          <other-functions-required-by-this-one-if-none-type-none>
+%
 %
 % USAGE:
 %{
@@ -30,16 +35,14 @@
 %
 % MODIFICATION HISTORY:
 %     SAK(21-09-2009) -- Original.
-%     SAK(DD-MM-YYYY) -- 
 %     SAK(Nov 2013)   -- Move to git, future modification history is
 %                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function FigureHandles = PlotNodeBifurcation(UniqueExtrema,options)
+function FigureHandles = PlotNodeBifurcation(UniqueExtrema, options)
 
- 
- [NumberOfNodes NumberOfModes NumberOfbifurcationSteps] = size(UniqueExtrema.(options.Dynamics.StateVariables{1}));
+  [NumberOfNodes NumberOfModes NumberOfbifurcationSteps] = size(UniqueExtrema.(options.Dynamics.StateVariables{1}));
  
 %
 % % %  if nargin>2 && isfield(options, 'PlotOnlyNodes'),
@@ -52,25 +55,27 @@ function FigureHandles = PlotNodeBifurcation(UniqueExtrema,options)
 % % %    if NumberOfNodes > 38,
 % % %      warning(['BrainNetworkModels:PlottingTools:' mfilename ':TooManyNodes'],'Plotting so many nodes at once doesn''t work well. Try setting options.PlotOnlyNode...');
 % % %    end
-   TheseNodes = 1:NumberOfNodes;
+  TheseNodes = 1:NumberOfNodes;
 % % %  end
  
- NumberOfRows = floor(sqrt(NumberOfNodes));
- NumberOfColumns = ceil(sqrt(NumberOfNodes));
- if NumberOfRows*NumberOfColumns < NumberOfNodes, NumberOfColumns = NumberOfColumns+1; end
-
+  NumberOfRows = floor(sqrt(NumberOfNodes));
+  NumberOfColumns = ceil(sqrt(NumberOfNodes));
+  if (NumberOfRows*NumberOfColumns < NumberOfNodes),
+    NumberOfColumns = NumberOfColumns+1;
+  end
+  
 %%
- for tsv = 1:length(options.Dynamics.StateVariables),
-   LowerBound = min([UniqueExtrema.(options.Dynamics.StateVariables{tsv}){:}]);
-   UpperBound = max([UniqueExtrema.(options.Dynamics.StateVariables{tsv}){:}]);
-   %
-   if nargin>2 && isfield(options, 'FigureHandles'),
-     FigureHandles{tsv} = figure(options.FigureHandles{tsv}); %
-   else
-     FigureHandles{tsv} = figure('Name',options.Dynamics.StateVariables{tsv});
-   end
-   
-    for  n=1:NumberOfNodes,
+  for tsv = 1:length(options.Dynamics.StateVariables),
+    LowerBound = min([UniqueExtrema.(options.Dynamics.StateVariables{tsv}){:}]);
+    UpperBound = max([UniqueExtrema.(options.Dynamics.StateVariables{tsv}){:}]);
+    %
+    if nargin>2 && isfield(options, 'FigureHandles'),
+      FigureHandles{tsv} = figure(options.FigureHandles{tsv}); %
+    else
+      FigureHandles{tsv} = figure('Name',options.Dynamics.StateVariables{tsv});
+    end
+    
+    for n=1:NumberOfNodes,
       subplot(NumberOfRows,NumberOfColumns,n), hold all
       for tm = 1:NumberOfModes,
         BifV = cell2mat(squeeze(UniqueExtrema.(options.Dynamics.StateVariables{tsv})(TheseNodes(n),tm,:)).');
@@ -97,6 +102,6 @@ function FigureHandles = PlotNodeBifurcation(UniqueExtrema,options)
         set(gca,'ytick',[])
       end
     end
- end
-%% 
+  end
+ 
 end % function PlotNodeBifurcation()

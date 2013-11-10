@@ -16,7 +16,7 @@ If using Octave, run:
 
     use_fltk()
 
-at the Octave command prompt.
+at the Octave command prompt, the default gnuplot is painfully slow...
 
 
 
