@@ -47,7 +47,7 @@ function [HistObjHandles FigureHandle] = PlotOverlayedHistograms(Data, NumberOfB
     NumberOfBins = 100; %
   end
   if nargin < 3,
-    for k=1:NumberOfDatasets, DataLabels{k} = num2str(k); end; %
+    for k=1:NumberOfDatasets, DataLabels{k} = num2str(k); end; %index labels
   end
   if nargin < 4,
     Normalise = false; %

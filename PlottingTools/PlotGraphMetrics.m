@@ -1,12 +1,18 @@
 %% Plot sorted historgams and imagesc() matrices of the graph metrics for a
 % given connectivity matrix...
 %
+% See:
+%   Knock, S. A., et al. "The effects of physiologically plausible connectivity
+%   structure on local and global dynamics in large scale brain models." 
+%   Journal of neuroscience methods 183.1 (2009): 86-94.
+%
+%
 % ARGUMENTS:
 %           Connectivity -- a structure containing the options, specific to
 %                           each matrix. Fields described in GetConnectivity().
 %
 % OUTPUT: 
-%           <output1> -- <description>
+%           none
 %
 % REQUIRES: 
 %          GetConnectivity() -- 

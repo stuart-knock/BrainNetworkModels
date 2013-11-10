@@ -124,22 +124,30 @@
     
     options = UpdateInitialConditions(options);
   end
- 
-%% Look at the FFT by region 
-%  addpath(genpath('./PlottingTools'))
-%  %Simple regional projection matrix.
-%  NumberOfRegions = options.Connectivity.NumberOfNodes;
-%  NumberOfVertices = options.Connectivity.NumberOfVertices;
-%  Mapping.ProjectionMatrix = spalloc(NumberOfVertices, NumberOfRegions, NumberOfRegions);
-%  for k=1:NumberOfRegions, 
-%    ThisRegionVertices = options.Connectivity.RegionMapping==k;
-%    Mapping.ProjectionMatrix(ThisRegionVertices,k) = 1./sum(ThisRegionVertices); %approx normalise region area 
-%  end
-%  Mapping.ProjectionLables = options.Connectivity.NodeStr;
-%  
-%  PlotRegionColouredFFT(Store_phi_e, Mapping, 1024);
 
+%% When did we finish:
+  disp(['Simulation ended: ' when()])
+
+
+% %% Look at the TimeSeries averaged by Connectivity regions 
+%   PlotRegionAveragedTimeSeries(Store_phi_e(1:4:end,:), options.Connectivity, Store_t(1:4:end))
+
+
+% %% Look at the FFT by region 
+%   addpath(genpath('./PlottingTools'))
+%   %Simple regional projection matrix.
+%   NumberOfRegions = options.Connectivity.NumberOfNodes;
+%   NumberOfVertices = options.Connectivity.NumberOfVertices;
+%   Mapping.ProjectionMatrix = spalloc(NumberOfVertices, NumberOfRegions, NumberOfRegions);
+%   for k=1:NumberOfRegions, 
+%     ThisRegionVertices = options.Connectivity.RegionMapping==k;
+%     Mapping.ProjectionMatrix(ThisRegionVertices,k) = 1./sum(ThisRegionVertices); %approx normalise region area 
+%   end
+%   Mapping.ProjectionLables = options.Connectivity.NodeStr;
   
+%   sfhz = 1000.0 / (options.Integration.dt * DSF_t); %Sample frequency in Hz
+%   PlotRegionColouredFFT(Store_phi_e, Mapping, sfhz); 
+
 
 %% Make a Pruuutty picture...
   %tr = TriRep(Triangles,Vertices);
