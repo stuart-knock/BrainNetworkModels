@@ -5,20 +5,28 @@
 %
 % ARGUMENTS:
 %           G -- Connectivity matrix representing the graph
-%           Symmetric -- A 1 or 0 specifying whether the matix is symmetric or not.
+%           Symmetric -- 1 or 0 specifying whether G is symmetric or not.
 %
 % OUTPUT: 
 %        lattice --  
 %        randos  -- 
 %
+% REQUIRES: 
+%          none
+%
 % USAGE:
+%{
+      <example-commands-to-make-this-function-run>
+%}
 %
 % MODIFICATION HISTORY:
 %     MR(Early-2006)  -- Original.
 %     SAK(15-11-2006) -- Generalised for nonsymetric matrix, defaults 
 %                        to symmetric for backward compatability...
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [lattice, randos] = latrand(G, Symmetric)
 %% Set any argument that weren't specified
@@ -88,7 +96,7 @@ if nargout > 1,
    lattice = lattice + lattice';
    randos  = randos  + randos';
  else
-   error('GraphMetrics:utilities:Weighted_Graph:latrand:NonSymNotCoded','HAVEN''T ADAPTED RANDOMISATION TO NON-SYMMETRIC GRAPHS...')
+   error(['BrainNetworkModels:Metrics:Weighted_Graph:' mfilename ':NonSymNotCoded'],'HAVEN''T ADAPTED RANDOMISATION TO NON-SYMMETRIC GRAPHS...')
  end
 end
  
@@ -111,7 +119,7 @@ end
 % % %  end
 
  
-end %function 
+end %function latrand()
 
 
 % % %  edges = G(G~=0);

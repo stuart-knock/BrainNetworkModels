@@ -1,5 +1,6 @@
-%% Calculate Clustering Coefficients for a set of graphs 'x' and average them in the possible ways. 
-%  See notes in weiCC regarding definition of Weighted Directed Clustering Coefficient
+%% Calculate Clustering Coefficients for a set of graphs 'x' and average them
+% in the possible ways. See notes in weiCC regarding definition of Weighted 
+% Directed Clustering Coefficient.
 % 
 %
 %  ARGUMENTS:
@@ -50,6 +51,15 @@
 %     stdepochfmaCC -- Standard deviation of the Epoch-wise           CC
 %
 %
+% REQUIRES: 
+%          weiCC() -- Computes cluster index of a weighted directed graph.
+%
+% USAGE:
+%{
+      %See ../PlottingTools/PlotGraphMetrics.m
+%}
+%
+%
 % MODIFICATION HISTORY:
 %     SAK(22-06-2007) -- Original... Modified/Amalgamated from redudndant
 %                                    implementation in GraphMetrics_1.2.
@@ -57,7 +67,9 @@
 %                                    clustind to weiCC for CC calculations 
 %                                    and return std again rather than sem,
 %                                    sem can be calculated in plotting.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 function [CC oCC iCC fbCC  maCC                                                                                     ...
@@ -67,7 +79,8 @@ function [CC oCC iCC fbCC  maCC                                                 
 
   [nodes nodes noepochs] = size(x);
   if (nargout>15) && (noepochs==1),
-    error(strcat('FHN_net:','Metrics:',mfilename,':IncompatInOut'),'Input is only a single graph but you''ve asked for node-wise epoch-wise output...');
+    msg = 'Input is only a single graph but you''ve asked for node-wise epoch-wise output...';
+    error(strcat('BrainNetworkModels:','Metrics:',mfilename,':IncompatInOut'), msg);
   end
   
   CC   = zeros(nodes, noepochs);

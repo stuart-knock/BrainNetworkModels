@@ -1,4 +1,5 @@
-%% Calculate Distance Matricies for a set of graphs 'x' and average them in the possible ways to get Path Lengths.
+%% Calculate Distance Matricies for a set of graphs 'x' and average them in the
+% possible ways to get Path Lengths.
 %
 %
 %  ARGUMENTS:
@@ -18,10 +19,21 @@
 %    D[nodes,nodes,noepochs] -- Distance matricies corresponding to x
 %
 %
+% REQUIRES: 
+%          Dwei() -- Weighted distance matrix for graph (Dijkstra's algorithm).
+%
+% USAGE:
+%{
+      %See ../PlottingTools/PlotGraphMetrics.m
+%}
+%
+%
 % MODIFICATION HISTORY:
 %     SAK(22-06-2007) -- Original 
 %     SAK(25-09-2007) -- replace minpathmat with Dwei
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SAK(Nov 2013)   -- Move to git, future modification history is
+%                        there...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [PL stdPL nodeoPL stdnodeoPL nodeiPL stdnodeiPL epochPL stdepochPL D] = PathLengths(x)
 

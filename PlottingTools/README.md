@@ -12,6 +12,14 @@ Additionally, for PlotGraphMetrics(), you'll need run:
 
 see headers of individual files for usage.
 
+If using Octave, run:
+
+    use_fltk()
+
+at the Octave command prompt.
+
+
+
 ### Directory/File structure:
     
     .
