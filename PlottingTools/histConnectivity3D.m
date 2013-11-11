@@ -18,6 +18,7 @@
 %                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%TODO: Uses deprecated data structures and calling conventions, update or discard...
 
 function histConnectivity3D(ThisMatrix,options)
 

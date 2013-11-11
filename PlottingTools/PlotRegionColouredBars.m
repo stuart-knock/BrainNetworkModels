@@ -20,7 +20,7 @@
 %
 % USAGE:
 %{
-      %You probably don't want to directly, see ./PlotGraphMetrics.m
+    %You probably don't want to directly, see ./PlotGraphMetrics.m
 %}
 %
 
@@ -28,7 +28,7 @@
 function PlotRegionColouredBars(Regions, NodeStr)
 
   RegionNames = fieldnames(Regions);
-  NumberOfRegions =length(RegionNames);
+  NumberOfRegions = length(RegionNames);
   N = length(Regions.(RegionNames{1}));
   
   TheseBars = zeros(N,NumberOfRegions);

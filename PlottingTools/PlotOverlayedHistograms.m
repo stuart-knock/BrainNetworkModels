@@ -8,8 +8,8 @@
 %           Normalise -- Binary of whether to normalise or not. [default False] 
 %
 % OUTPUT: 
-%           HistObjHandles -- <description>
-%           FigureHandle -- <description>
+%           HistObjHandles -- Cell array of handles to each of the hist objects.
+%           FigureHandle -- A handle for the figure.
 %
 %
 % REQUIRES:

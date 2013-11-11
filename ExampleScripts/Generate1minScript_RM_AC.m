@@ -25,12 +25,14 @@
   ScriptDir = pwd;       %get full path to this script
   cd(CodeDir)            %Change to code directory
   FullPathCodeDir = pwd; %get full path of CodeDir
+  ThisScript = mfilename; %which script is being run
   
   %When and Where did we start:
   disp(['Script started: ' when()]) 
   if strcmp(filesep,'/'), %on a *nix machine, then write machine details to our log...
     system('uname -a')
-  end 
+  end
+  disp(['Running: ' ThisScript])
   disp(['Script directory: ' ScriptDir])
   disp(['Code directory: ' FullPathCodeDir])
  

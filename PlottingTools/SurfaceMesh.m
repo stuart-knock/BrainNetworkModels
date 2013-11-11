@@ -7,6 +7,9 @@
 %      ThisFigure        -- Handle to overall figure object.
 %      SurfaceHandle    -- Handle to patch object, cortical surface.
 %
+% REQUIRES: 
+%        TriRep -- A Matlab object, not yet available in Octave.
+%
 % USAGE:
 %{     
        ThisSurface = '213';

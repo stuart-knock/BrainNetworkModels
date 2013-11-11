@@ -1,4 +1,5 @@
-%% Group connectivity regions into larger function regions.
+%% Create a structure that groups sorted graph metrics for connectivity
+% regions into larger functional regions. Used in PlotGraphMetrics().
 %
 % See figures 5, 9, and 10 of:
 %   Knock, S. A., et al. "The effects of physiologically plausible connectivity
@@ -6,22 +7,22 @@
 %   Journal of neuroscience methods 183.1 (2009): 86-94.
 %
 % ARGUMENTS:
-%           Metric --
-%           Index --
-%           NodeStr --
-%           ThisMatrix --
+%        Metric --
+%        Index --
+%        NodeStr --
+%        ThisMatrix --
 %           
 %           
 %
 % OUTPUT: 
-%           Regions -- A structure containing
+%        Regions -- A structure containing
 %
 % REQUIRES: 
-%          none
+%        none
 %
 % USAGE:
 %{
-      %See use in ../PlotGraphMetrics.m
+    %You probably don't want to directly, see ../PlotGraphMetrics.m
 %}
 %
 % MODIFICATION HISTORY:

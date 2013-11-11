@@ -2,19 +2,19 @@
 %
 %
 % ARGUMENTS:
-%          <arg1> -- <description>
-%          <arg2> -- <description>
+%        <arg1> -- <description>
+%        <arg2> -- <description>
 %
 % OUTPUT: 
-%          <output1> -- <description>
-%          <output2> -- <description>
+%        <output1> -- <description>
+%        <output2> -- <description>
 %
 % REQUIRES: 
-%          <other-functions-required-by-this-one-if-none-type-none>
+%        <other-functions-required-by-this-one-if-none-type-none>
 %
 % USAGE:
 %{
-      <example-commands-to-make-this-function-run>
+    <example-commands-to-make-this-function-run>
 %}
 %
 

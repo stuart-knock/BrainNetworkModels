@@ -13,32 +13,34 @@
 %
 
 %% Some details of our environment...
-%Where is the code
- CodeDir = '..';        %can be full or relative directory path
- ScriptDir = pwd;       %get full path to this script
- cd(CodeDir)            %Change to code directory
- FullPathCodeDir = pwd; %get full path of CodeDir
+  %Where is the code
+  CodeDir = '..';        %can be full or relative directory path
+  ScriptDir = pwd;       %get full path to this script
+  cd(CodeDir)            %Change to code directory
+  FullPathCodeDir = pwd; %get full path of CodeDir
+  ThisScript = mfilename; %which script is being run
 
-%When and Where did we start:
- disp(['Script started: ' when()]) 
- if strcmp(filesep,'/'), %on a *nix machine, write machine details to our log...
-   system('uname -a') 
- end 
- disp(['Script directory: ' ScriptDir])
- disp(['Code directory: ' FullPathCodeDir])
- 
+  %When and Where did we start:
+  disp(['Script started: ' when()]) 
+  if strcmp(filesep,'/'), %on a *nix machine, write machine details to our log...
+    system('uname -a') 
+  end 
+  disp(['Running: ' ThisScript])
+  disp(['Script directory: ' ScriptDir])
+  disp(['Code directory: ' FullPathCodeDir])
+
 %% Do the stuff... 
 
 
  
 %% Save results to the directory of the invoking script
- save([ScriptDir filesep 'AppropriateFileName.mat'])
+  save([ScriptDir filesep 'AppropriateFileName.mat'])
  
 %% When did we finish:
  CurrentTime = clock;
- disp(['Script ended: ' when()])
+  disp(['Script ended: ' when()])
 
 %% Always exit at the end when batching... 
- exit
+  exit
 
 %%%EoF%%%

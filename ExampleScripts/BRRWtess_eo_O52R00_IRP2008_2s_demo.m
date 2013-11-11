@@ -15,6 +15,7 @@
   ScriptDir = pwd;       %get full path to this script
   cd(CodeDir)            %Change to code directory
   FullPathCodeDir = pwd; %get full path of CodeDir
+  ThisScript = mfilename; %which script is being run
   
   if isoctave(),
     more off
@@ -24,7 +25,8 @@
   disp(['Script started: ' when()]) 
   if strcmp(filesep,'/'), %on a *nix machine, then write machine details to our log...
     system('uname -a') 
-  end 
+  end
+  disp(['Running: ' ThisScript])
   disp(['Script directory: ' ScriptDir])
   disp(['Code directory: ' FullPathCodeDir])
 
@@ -135,18 +137,9 @@
 
 % %% Look at the FFT by region 
 %   addpath(genpath('./PlottingTools'))
-%   %Simple regional projection matrix.
-%   NumberOfRegions = options.Connectivity.NumberOfNodes;
-%   NumberOfVertices = options.Connectivity.NumberOfVertices;
-%   Mapping.ProjectionMatrix = spalloc(NumberOfVertices, NumberOfRegions, NumberOfRegions);
-%   for k=1:NumberOfRegions, 
-%     ThisRegionVertices = options.Connectivity.RegionMapping==k;
-%     Mapping.ProjectionMatrix(ThisRegionVertices,k) = 1./sum(ThisRegionVertices); %approx normalise region area 
-%   end
-%   Mapping.ProjectionLables = options.Connectivity.NodeStr;
+%   Mapping = mapping_to_regions(options);
   
-%   sfhz = 1000.0 / (options.Integration.dt * DSF_t); %Sample frequency in Hz
-%   PlotRegionColouredFFT(Store_phi_e, Mapping, sfhz); 
+%   PlotRegionColouredFFT(Store_phi_e, Store_t, Mapping); 
 
 
 %% Make a Pruuutty picture...

@@ -22,6 +22,7 @@ at the Octave command prompt, the default gnuplot is painfully slow...
 
 ### Directory/File structure:
     
+    tree
     .
     ├── colourmaps
     │   ├── BlackToBlue.mat
@@ -70,16 +71,17 @@ at the Octave command prompt, the default gnuplot is painfully slow...
     ├── SurfaceMesh.m
     ├── SurfaceMovie.m
     ├── SurfaceRegions.m
+    ├── use_fltk.m
     └── utilities
         ├── arrow3D.m
         ├── AxisToOrigin.m
         ├── GroupRegions.m
         ├── imrotateticklabel.m
         ├── makedoi.m
+        ├── mapping_to_functional.m
+        ├── mapping_to_regions.m
         ├── mpgwrite.mexa64
         ├── rotatePoints.m
         └── xticklabel_rotate.m
 
-    2 directories, 54 files
-
-
+    2 directories, 57 files
