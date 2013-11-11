@@ -11,7 +11,7 @@ function yesno = isoctave()
 
   if isempty(oorm),
     oorm = exist('OCTAVE_VERSION', 'builtin') ~= 0;
-  end;
+  end
   yesno = oorm;
 
- return;
+end %function isoctave()

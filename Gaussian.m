@@ -27,17 +27,15 @@
 
 
 function X=Gaussian(X, Sigma, Amplitude)
-%% Set any argument that weren't specified
- if nargin < 2,
-   Sigma = 1; %standard deviation 
- end
- if nargin < 3,
-   Amplitude = 1./sqrt(2*pi*Sigma.^2); %Normalise to unit area
- end
- 
-%%
+  %Set any argument that weren't specified
+  if nargin < 2,
+    Sigma = 1; %standard deviation 
+  end
+  if nargin < 3,
+    Amplitude = 1./sqrt(2*pi*Sigma.^2); %Normalise to unit area
+  end
+  
+  %
   X = Amplitude.*exp(-(X.^2)./(2*Sigma.^2));
-
-%% 
 
 end %function Gaussian()

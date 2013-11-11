@@ -29,18 +29,15 @@
 
 
 function options = MergeStructures(options, defaults)
-
-%% 
-if nargin>1,
-  PossibleOptions = unique([fieldnames(options) ; fieldnames(defaults)]); %
-  %Assign defaults to any necessary but unsupplied options...
-  for ThisOption = 1:length(PossibleOptions),
-    if ~isfield(options, PossibleOptions{ThisOption}),
-      options.(PossibleOptions{ThisOption}) = defaults.(PossibleOptions{ThisOption});
+  % 
+  if nargin>1,
+    PossibleOptions = unique([fieldnames(options) ; fieldnames(defaults)]); %
+    %Assign defaults to any necessary but unsupplied options...
+    for ThisOption = 1:length(PossibleOptions),
+      if ~isfield(options, PossibleOptions{ThisOption}),
+        options.(PossibleOptions{ThisOption}) = defaults.(PossibleOptions{ThisOption});
+      end
     end
   end
-end
-
-%% 
 
 end %function MergeStructures()

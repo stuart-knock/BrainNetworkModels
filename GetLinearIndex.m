@@ -15,7 +15,7 @@
 %
 % USAGE:
 %{
-   lidelay = GetLinearIndex(delay, iters, maxdelayiters, dt);
+    lidelay = GetLinearIndex(delay, iters, maxdelayiters, dt);
 %}
 %
 % MODIFICATION HISTORY:
@@ -28,32 +28,29 @@
 
 
 function lidelay = GetLinearIndex(delay, iters, maxdelayiters, dt, CouplingVariables)
- if nargin<5,
-   CouplingVariables = 1;
- end
- [N1 N2] = size(delay);
-
-%% 
-%Convert time delays into a integer number of integration steps...(with 0 delay counting as previous time point???)
- idelay = round(delay/dt)+1; 
-
-%Calculate offset required to convert the values idelay into a linear index
- NumberOfRows = iters + maxdelayiters;
- OffsetMatrix = repmat((0:NumberOfRows:(NumberOfRows*(N2-1))), [N1 1]);
- 
-%Offset delays and invert them so that they count into the past
- lidelay(1,:,:) = maxdelayiters - idelay + OffsetMatrix; 
- 
-%
- if CouplingVariables~=1,
-   ElementsInHistory = N2*NumberOfRows;
-   for cv = 2:CouplingVariables,
-     lidelay(cv,:,:) = lidelay(1,:,:) + (cv-1)*ElementsInHistory;
-   end
- else
-   lidelay = squeeze(lidelay);
- end
-
-%% 
+  if nargin<5,
+    CouplingVariables = 1;
+  end
+  [N1 N2] = size(delay);
+  
+  %Convert time delays into a integer number of integration steps...(with 0 delay counting as previous time point???)
+  idelay = round(delay/dt)+1; 
+  
+  %Calculate offset required to convert the values idelay into a linear index
+  NumberOfRows = iters + maxdelayiters;
+  OffsetMatrix = repmat((0:NumberOfRows:(NumberOfRows*(N2-1))), [N1 1]);
+  
+  %Offset delays and invert them so that they count into the past
+  lidelay(1,:,:) = maxdelayiters - idelay + OffsetMatrix; 
+  
+  %
+  if CouplingVariables~=1,
+    ElementsInHistory = N2*NumberOfRows;
+    for cv = 2:CouplingVariables,
+      lidelay(cv,:,:) = lidelay(1,:,:) + (cv-1)*ElementsInHistory;
+    end
+  else
+    lidelay = squeeze(lidelay);
+  end
 
 end %function GetLinearIndex()

@@ -1,10 +1,12 @@
-%% <Description>
+%% Updates intitial conditions based of state variables available in the 
+% caller's namespace. Used for simulation continuation, outputs from *_heun()
+% must exist and have their standard names.
 %
 % ARGUMENTS:
-%           <arg1> -- <description>
+%        options -- <description>
 %
 % OUTPUT: 
-%           <output1> -- <description>
+%        options-- <description>
 %
 % USAGE:
 %{

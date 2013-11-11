@@ -23,24 +23,20 @@
 
 
 function angles=GetAngles(vertices,triangles)
-%% 
- NumberofTriangles = length(triangles);
+%%
+  NumberofTriangles = length(triangles);
 
 %% 
- angles = zeros(NumberofTriangles,3);
- for tt = 1:NumberofTriangles,
-   ThisTriangle = triangles(tt,:);
-   for ta = 1:3,
-     ThisAngle = circshift(ThisTriangle, [0 -(ta-1)]);
-     angles(tt,ta) = acos(dot((vertices(ThisAngle(2),:)-vertices(ThisAngle(1),:)) ./ sqrt(sum((vertices(ThisAngle(2),:)-vertices(ThisAngle(1),:)).^2)), ...
-                              (vertices(ThisAngle(3),:)-vertices(ThisAngle(1),:)) ./ sqrt(sum((vertices(ThisAngle(3),:)-vertices(ThisAngle(1),:)).^2))));
-     
-   end
- end
-
-%% 
+  angles = zeros(NumberofTriangles,3);
+  for tt = 1:NumberofTriangles,
+    ThisTriangle = triangles(tt,:);
+    for ta = 1:3,
+      ThisAngle = circshift(ThisTriangle, [0 -(ta-1)]);
+      v21 = vertices(ThisAngle(2),:) - vertices(ThisAngle(1),:);
+      v31 = vertices(ThisAngle(3),:) - vertices(ThisAngle(1),:);
+      angles(tt,ta) = acos(dot(v21 ./ sqrt(sum(v21.^2)), ...
+                               v31 ./ sqrt(sum(v31.^2))))
+    end
+  end
 
 end %function GetAngles()
-
-
-

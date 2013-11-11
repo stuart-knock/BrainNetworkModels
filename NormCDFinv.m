@@ -27,18 +27,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function CDFinv = NormCDFinv(X,mu,sigma)
-%% Set defaults if all arguments not supplied...
- if nargin < 2,
-   mu = 0;      % default to mean zero
- end
- if nargin < 3,
-   sigma = 1;   % default to standard deviation 1
- end
- 
-%% 
-% 
- CDFinv = mu + sigma*sqrt(2)*erfinv(2*X-1);
- 
-%% 
+  % Set defaults if all arguments not supplied...
+  if nargin < 2,
+    mu = 0;      % default to mean zero
+  end
+  if nargin < 3,
+    sigma = 1;   % default to standard deviation 1
+  end
+  
+  %
+  CDFinv = mu + sigma*sqrt(2)*erfinv(2*X-1);
 
 end %function NormCDFinv()

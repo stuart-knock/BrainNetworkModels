@@ -24,21 +24,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function G = NormPDF(X,mu,sigma)
-%% Set defaults if all arguments not supplied...
- if nargin < 2,
-   mu = 0;      % default to mean zero
- end
- if nargin < 3,
-   sigma = 1;   % default to standard deviation 1
- end
-
-%% 
-%Normal pdf at requested 
- G = exp(-(X-mu).^2 / (2*sigma^2))./(sigma*2*pi);
- 
-%Normalise to unit area
- G = G / trapz(X, G);
-
-%% 
+  % Set defaults if all arguments not supplied...
+  if nargin < 2,
+    mu = 0;      % default to mean zero
+  end
+  if nargin < 3,
+    sigma = 1;   % default to standard deviation 1
+  end
+  
+  %Normal pdf at requested 
+  G = exp(-(X-mu).^2 / (2*sigma^2))./(sigma*2*pi);
+  
+  %Normalise to unit area
+  G = G / trapz(X, G);
 
 end %function NormPDF()

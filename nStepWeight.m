@@ -6,8 +6,32 @@
 % multi step weight contributions vs multistep delays => temporal response
 % of region???
 %
+% ARGUMENTS:
+%        X -- weights matrix
+%        tolerance -- Contribution of subsequent steps below which we'll
+%                     consider ourselves "close enough".
+%        max_steps -- a fixed upper limit on the number of steps taken.
 %
+% OUTPUT: 
+%        nX -- The n-steps weight matrix
+%        steps -- how many steps we took
 %
+% REQUIRES: 
+%        none
+%
+% USAGE:
+%{
+    Connectivity.WhichMatrix = 'RM_AC';
+    Connectivity = GetConnectivity(Connectivity);
+    X = Connectivity.weights / max(sum(Connectivity.weights, 2));
+    [nX, steps] = nStepWeight(X);
+
+    figure, imagesc(X); daspect([1 1 1]); title('Original'); colorbar
+    figure, imagesc(nX); daspect([1 1 1]); title('n-step'); colorbar
+%}
+%
+
+%TODO: Consider including optional normalisation...
 
 function [nX, steps] = nStepWeight(X, tolerance, max_steps)
   if nargin < 2,
@@ -19,10 +43,11 @@ function [nX, steps] = nStepWeight(X, tolerance, max_steps)
 
   %Guestimate criterion, needs validation...
   if max(sum(X, 2)) >= 1.0,
-    disp('Welcome to the infinite loop...')
+    msg = 'Welcome to the infinite loop...';
+    warning(['BrainNetworkModels:' mfilename ':InfLoop'], msg)
     if max_steps == Inf,
-      disp('You''ll need to specify a finite max_steps... bailing.')
-      return
+      msg = 'You''ll need to specify a finite max_steps... bailing.';
+      error(['BrainNetworkModels:' mfilename ':InfLoop'], msg)
     end
   end
 

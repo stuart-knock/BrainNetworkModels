@@ -1,10 +1,14 @@
-%% <Description>
+%% Generates a tesselated plane using Delaunay triangulation.
 %
 % ARGUMENTS:
-%           <arg1> -- <description>
+%        n -- <description>
 %
 % OUTPUT: 
-%           <output1> -- <description>
+%        Vertices -- <description> 
+%        Triangles --
+%
+% REQUIRES: 
+%        DelaunayTri() -- Not yet available in Octave...
 %
 % USAGE:
 %{
@@ -19,22 +23,19 @@
 
 
 function [Vertices Triangles]=MakeTesselatedPlane(n)
-%% Set any argument that weren't specified
- if nargin < 1,
-   n = 10;
- end
- 
- 
-%% 
- [X Y] = ind2sub(size(ones(n)), find(ones(n)));
- 
- DT = DelaunayTri(X,Y);
- 
- Triangles = DT.Triangulation;
- Vertices  = [X Y ones(size(X))];
- 
- %TR = TriRep(DT.Triangulation, X, Y, ones(size(X)));
-
-%% 
+  % Set any argument that weren't specified
+  if nargin < 1,
+    n = 10;
+  end
+  
+  % 
+  [X Y] = ind2sub(size(ones(n)), find(ones(n)));
+  
+  DT = DelaunayTri(X,Y);
+  
+  Triangles = DT.Triangulation;
+  Vertices  = [X Y ones(size(X))];
+  
+  %TR = TriRep(DT.Triangulation, X, Y, ones(size(X)));
 
 end %function MakeTesselatedPlane()

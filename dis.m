@@ -41,16 +41,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function y=dis(a,b)
-
- if size(a)==size(b),
-   y = sqrt(sum((a-b).^2));
- else
-   [dim,szt]=size(a);
-   d=zeros(1,szt);
-   for i=1:dim
-     d=d+((a(i,:)-b(i,:)).^2);
-   end
-   y=sqrt(d);
- end
+  
+  if size(a)==size(b),
+    y = sqrt(sum((a-b).^2));
+  else
+    [dim,szt]=size(a);
+    d=zeros(1,szt);
+    for i=1:dim
+      d=d+((a(i,:)-b(i,:)).^2);
+    end
+    y=sqrt(d);
+  end
 
 end %function
