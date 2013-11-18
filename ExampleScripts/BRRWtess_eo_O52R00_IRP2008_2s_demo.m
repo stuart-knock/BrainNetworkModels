@@ -71,7 +71,7 @@
   %This is default% options.Integration.iters = 2^10; %1024 => 125ms at dt=0.122070312500
  
   %Increased verbosity, here it enables the integration step counter.
-  options.Other.verbosity = 1;
+  options.Other.verbosity = 6;
  
   % Set things derived from our choices above
   options = SetDerivedParameters(options); %

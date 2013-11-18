@@ -174,11 +174,11 @@ function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRWtess_heun(opt
  xt    = zeros(2,options.Connectivity.NumberOfVertices);
  zt    = zeros(2,options.Connectivity.NumberOfVertices);
 % % % keyboard 
- if options.Other.verbosity > 0; 
+ if options.Other.verbosity > 5; 
    fprintf(1,'Integrating for %d steps, currently on step:     ', options.Integration.iters);
  end
  for k = 1:options.Integration.iters
-   if options.Other.verbosity > 0;
+   if options.Other.verbosity > 5;
      fprintf(1,'\b\b\b\b%4d', k);
    end
    
@@ -255,7 +255,7 @@ function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRWtess_heun(opt
    dw = ndw; %updating dVr
 
  end
- if options.Other.verbosity > 0;
+ if options.Other.verbosity > 5;
    fprintf(1,'\n');
  end
  

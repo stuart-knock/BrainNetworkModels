@@ -45,11 +45,12 @@ function S = Sigma(V,Qmax,Theta,sigma,Variant)
 
   PiOnSqrt3 = 1.813799364234217836866491779801435768604278564;
 %                              ^?
+  S = inf(size(V));
   switch lower(Variant),
     case{''}
       S = Qmax ./ (1 + exp(-PiOnSqrt3.*((V-Theta)./sigma)));
     case {'inverse'},
-      S = Theta + (sigma./PiOnSqrt3) .* log(V./(Qmax-V));
+      S(Qmax-V>0) = Theta + (sigma./PiOnSqrt3) .* log(V(Qmax-V>0)./(Qmax-V(Qmax-V>0)));
     case{'derivative'}
       w = exp(-PiOnSqrt3.*((V-Theta)./sigma));
       S = (PiOnSqrt3.*Qmax./sigma) .* w ./ ((1+w).*(1+w));

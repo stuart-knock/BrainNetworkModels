@@ -1,10 +1,10 @@
-%% Calculate bifurcation as a function of nu_se for BRRW-absence.
+%% Calculate bifurcation as a function of csf for FHN on RM_AC.
 %
 % Calculation is done using NodeBifurcation() and subsequent
 % visualisation uses PlotNodeBifurcation().
 %
-% Approximate runtime: 5 hours, Octave, Workstation circa 2012
-% Approximate memory:  < 1GB
+% Approximate runtime: 6 hours, Octave, Workstation circa 2012
+% Approximate memory:  <1GBB
 % Approximate storage: <?>MB 
 %
 %
@@ -28,43 +28,46 @@
   disp(['Code directory: ' FullPathCodeDir])
  
 %% Do the stuff...
-  
   %Specify Connectivity to use
-  options.Connectivity.WhichMatrix = 'O52R00_IRP2008';
-  options.Connectivity.RemoveThalamus = true;
-  options.Connectivity.invel = 1.0/7.0;
+  options.Connectivity.WhichMatrix = 'RM_AC';
+  options.Connectivity.invel = 1.0/25.0;
   
   %Specify Dynamics to use
-  options.Dynamics.WhichModel = 'BRRW';
-  options.Dynamics.BrainState = 'absence';
+  options.Dynamics.WhichModel = 'FHN';
   
   %Load default parameters for specified connectivity and dynamics
   options.Connectivity = GetConnectivity(options.Connectivity);
   options.Dynamics = SetDynamicParameters(options.Dynamics);
   options = SetIntegrationParameters(options);
   
-  options.Integration.dt = 2^-6;
+  %Set non default values
+  options.Integration.dt = 2^-9;
+  options.Integration.iters = 2^16;
   
   options = SetDerivedParameters(options);
   options = SetInitialConditions(options);
   
+  %Set default bifurcation parameters for this Model
   addpath(genpath('./Bifurcations'))
   options = SetBifurcationOptions(options);
-  options.Bifurcation.AttemptForceFixedPoint = false;
   
-  addpath(genpath('./PlottingTools')) %Need this if using interactive mode
-  options.Other.verbosity = 4; %42;
+  %Set non default values -- NOTE: these are actually defaults, it's just a demo
+  options.Bifurcation.BifurcationParameterIncrement = 0.00025;
+  options.Bifurcation.ErrorTolerance = 2.0e-7; 
+  options.Bifurcation.MaxContinuations = 65; %set to 0 for interactive
+  
+  addpath(genpath('./PlottingTools')) %Need this here if using interactive mode
+  options.Other.verbosity = 4;%42; %0 implies "be quiet"; >=33 is interactive mode
   
   %Calcualte the bifurcation
   [ForwardFxdPts BackwardFxdPts options] = NodeBifurcation(options);
-
 
 %% When did we finish:
   disp(['Script ended: ' when()])
 
 %% Plotting
   %Select a few nodes
-  options.Plotting.OnlyNodes = {'rFEF', 'rPFCORB', 'rV1', 'rV2'};
+  options.Plotting.OnlyNodes = {'A2', 'CCP', 'FEF', 'IP', 'PFCDM', 'S1'};
   
   % plot them
   FigureHandles = PlotNodeBifurcation(ForwardFxdPts, options)

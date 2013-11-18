@@ -1,10 +1,10 @@
-%% <Description>
+%% Set Initial Conditions based on Connectivity+Model+Integrator
 %
 % ARGUMENTS:
-%           options -- <description>
+%           options -- usual options structure
 %
 % OUTPUT: 
-%           options -- <description>
+%           options -- input structure updated with InitialConditions
 %
 % REQUIRES: 
 %        Sigma() -- for BRRW and AFR Models
@@ -121,11 +121,24 @@ function options = SetInitialConditions(options)
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     case {'BRRW'}%%% Populations Sigma() acts on don't seem to make sense, but this is what MB's code did... %%% 
       options.Dynamics.StateVariables = {'phi_e', 'dphi_e', 'V_e', 'dV_e', 'V_s', 'dV_s', 'V_r', 'dV_r'};
+     
+      switch options.Dynamics.BrainState
+        case{'absence','petitmal'}
+          MagicNumber1 = 0.005;
+          MagicNumber2 = 0.004;
+        case{'tonicclonic','grandmal'}
+          MagicNumber1 = 0.010;
+          MagicNumber2 = 0.009;
+        case{'ec'}
+          MagicNumber1 = 0.0093;
+          MagicNumber2 = 0.0087;
+        case{'eo'}
+          MagicNumber1 = 0.0063;
+          MagicNumber2 = 0.0055;
+        otherwise
+      end
       
-      MagicNumber1 = 12;
-      MagicNumber2 = 11;
-      
-      rV = MagicNumber1 + rand(maxdelayiters,NumberOfNodes)./2;
+      rV = MagicNumber1 + rand(maxdelayiters, NumberOfNodes) * ((options.Dynamics.Qmax - MagicNumber1) / 10.0);
       SigrVi = Sigma(rV, options.Dynamics.Qmax, options.Dynamics.Theta_e, options.Dynamics.sigma_e, 'inverse');
       options.Dynamics.InitialConditions.phi_e  = rV;
       options.Dynamics.InitialConditions.dphi_e = zeros(1,NumberOfNodes);
@@ -142,8 +155,8 @@ function options = SetInitialConditions(options)
     case {'AFR'}
       options.Dynamics.StateVariables = {'phi', 'dphi', 'V', 'dV'};
       
-      MagicNumber1 = 12;
-      MagicNumber2 = 11;
+      MagicNumber1 = 0.012;
+      MagicNumber2 = 0.011;
       
       rV = MagicNumber1 + rand(maxdelayiters,options.Connectivity.NumberOfVertices)./2;
       SigrVi = Sigma(rV, options.Dynamics.Qmax, options.Dynamics.Theta_e, options.Dynamics.sigma_e, 'inverse');
@@ -233,5 +246,5 @@ function f=vs(V,options)
     fp = -1 + options.Dynamics.nu_sr.*options.Dynamics.nu_rs.*Sigma(x,options.Dynamics.Qmax,options.Dynamics.Theta_s,options.Dynamics.sigma_s, 'derivative').*Sigma(root,options.Dynamics.Qmax,options.Dynamics.Theta_s,options.Dynamics.sigma_s, 'derivative');
     root = root - ff./fp;
   end
-  f = root;
+  f = root; %%% real(root); %HACK:TODO: NEED TO FIGURE OUT WHY WE'RE GETTING COMPLEX root HERE...
 end

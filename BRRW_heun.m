@@ -159,7 +159,13 @@ function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRW_heun(options
  xt    = zeros(2,options.Connectivity.NumberOfNodes);
  zt    = zeros(2,options.Connectivity.NumberOfNodes);
 %%%keyboard 
+ if options.Other.verbosity > 5; 
+   fprintf(1,'Integrating for %d steps, currently on step:     ', options.Integration.iters);
+ end
  for k = 1:options.Integration.iters
+   if options.Other.verbosity > 5;
+     fprintf(1,'\b\b\b\b%4d', k);
+   end
    
   %Calculate coupling term 
    if options.Dynamics.csf~=0,   %Skip it when checking uncoupled dynamics.
@@ -213,6 +219,9 @@ function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRW_heun(options
    w  = nw;  %updating Vr
    dw = ndw; %updating dVr
 
+ end
+ if options.Other.verbosity > 5;
+   fprintf(1,'\n');
  end
  
  phi_e = phi_e((options.Integration.maxdelayiters+1):end,:); %Throw away initial history...

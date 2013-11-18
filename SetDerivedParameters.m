@@ -11,6 +11,12 @@
 %           options -- An updated BrainNetwrorkModels options structure,
 %                      with new derived parameter fields filled.
 %
+% REQUIRES: 
+%        GetLinearIndex() -- 
+%        DiscreteLaplacian_1D() -- for Model=>BRRW
+%        
+%        
+%
 % USAGE:
 %{
       %Specify a connectivty matrix
@@ -84,7 +90,7 @@ function options = SetDerivedParameters(options)
      
      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    case {'BRRW'}%%% Populations Sigma() acts on don't seem to make sense, but this is what MB's code did... %%% 
-     options.Connectivity.maxdelay = max([1e-3.*options.Connectivity.delay(:).'  options.Dynamics.CTdelay  options.Dynamics.TCdelay]); %longest single step time delay
+     options.Connectivity.maxdelay = max([options.Connectivity.delay(:).'  options.Dynamics.CTdelay  options.Dynamics.TCdelay]); %longest single step time delay
      options.Integration.maxdelayiters = round(options.Connectivity.maxdelay/options.Integration.dt)+1; %maxdelay in integration steps
      options.Dynamics.NumberOfModes = 1;
      
@@ -92,12 +98,12 @@ function options = SetDerivedParameters(options)
      
      options.Dynamics.gamma_e = options.Dynamics.v ./ options.Dynamics.r_e;
      options.Dynamics.Delta_x = options.Dynamics.CorticalCircumference ./ options.Dynamics.Discretization;
-     options.Dynamics.LapOp   = DiscreteLaplacian_1D(options.Connectivity.NumberOfNodes, 3) ./ options.Dynamics.Delta_x.^2;
+     options.Dynamics.LapOp   = DiscreteLaplacian_1D(options.Connectivity.NumberOfNodes, 3) *0.0 ; %./ options.Dynamics.Delta_x.^2;
      options.Dynamics.axb     = options.Dynamics.alfa .* options.Dynamics.btta;
      options.Dynamics.apb     = options.Dynamics.alfa + options.Dynamics.btta;
      options.Dynamics.dtcsf   = options.Integration.dt*options.Dynamics.csf;
     
-     options.Dynamics.phi_n = ones(options.Integration.iters+options.Integration.maxdelayiters, options.Connectivity.NumberOfNodes);
+     options.Dynamics.phi_n = 1e-3.*ones(options.Integration.iters+options.Integration.maxdelayiters, options.Connectivity.NumberOfNodes);
      
      if numel(options.Dynamics.CTdelay) == 1,
        options.Dynamics.CTlidelay = GetLinearIndex(options.Dynamics.CTdelay.*ones(1,options.Connectivity.NumberOfNodes), options.Integration.iters, options.Integration.maxdelayiters, options.Integration.dt);
@@ -115,7 +121,7 @@ function options = SetDerivedParameters(options)
 
      %% Convert the provided time delays into a linear index for use in integration...
      
-     options.Integration.lidelay = GetLinearIndex(1e-3.*options.Connectivity.delay, options.Integration.iters, options.Integration.maxdelayiters, options.Integration.dt, options.Dynamics.NumberOfModes);
+     options.Integration.lidelay = GetLinearIndex(options.Connectivity.delay, options.Integration.iters, options.Integration.maxdelayiters, options.Integration.dt, options.Dynamics.NumberOfModes);
  
      %Explicitly rotate matrices to avoid implicit rotation within integration loop.
      options.Integration.lidelay = options.Integration.lidelay.';
@@ -237,4 +243,4 @@ function options = SetDerivedParameters(options)
    otherwise
  end
 
-end %function SetInitialConditions()
+end %function SetDerivedParameters()

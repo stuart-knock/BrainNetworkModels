@@ -50,9 +50,9 @@ function options = SetIntegrationParameters(options)
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     case {'BRRW'} 
-      %4 seconds @ 4096Hz
-      options.Integration.dt = 2^-12;
-      options.Integration.iters = 2^14;
+      %1024 milliseconds @ 64e3Hz
+      options.Integration.dt = 2^-5;
+      options.Integration.iters = 2^15;
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     case {'AFR'}
@@ -68,9 +68,9 @@ function options = SetIntegrationParameters(options)
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     case {'FHN'}
-      %256 milliseconds @ 64e3 Hz
-      options.Integration.dt = 2^-6;
-      options.Integration.iters = 2^14;
+      %256 milliseconds @ 256e3 Hz
+      options.Integration.dt = 2^-8;
+      options.Integration.iters = 2^16;
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     case {'FHNtess'}
