@@ -101,17 +101,17 @@ function [TheseFxdPts NumberOfFxdPts options StableSolutionFlag] = IntegrateUnti
     %Try and speed things up when we know where in a fixed point state.
     if options.Bifurcation.AttemptForceFixedPoint,
       if all(NumberOfFxdPts<=PrevNumberOfFxdPts),
-        ThinkItsAFixedPoint = ThinkItsAFixedPoint+1;
+        ThinkItsAFixedPoint = ThinkItsAFixedPoint+1; %TODO: This approach isn't robust, not guaranteed to be consistent with MaxContinuations advice...
       end
       if ThinkItsAFixedPoint==ContinuationsBeforeFPguess,
         if options.Other.verbosity > 0,
           disp('Guessing it''s a fixed point, so using guestimate of fixed point for continued integration...')
         end
         for tsv = 1:NumberOfStateVariables,
-          options.Dynamics.InitialConditions.(options.Dynamics.StateVariables{tsv}) = eval(['repmat(mean(options.Dynamics.InitialConditions.(' options.Dynamics.StateVariables{tsv} '), 1), [options.Integration.maxdelayiters 1]);']);
+          options.Dynamics.InitialConditions.(options.Dynamics.StateVariables{tsv}) = repmat(mean(options.Dynamics.InitialConditions.(options.Dynamics.StateVariables{tsv}), 1), [options.Integration.maxdelayiters 1]);
         end
         ThinkItsAFixedPoint = 0; %reset
-        ContinuationsBeforeFPguess = ContinuationsBeforeFPguess + 1;
+        ContinuationsBeforeFPguess = ContinuationsBeforeFPguess + 1; %TODO: double instead of increment and change MaxContinuations advice accordingly.
       else
         if options.Other.verbosity > 0,
           disp('using actual history for continued integration...');

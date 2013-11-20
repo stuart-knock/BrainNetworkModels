@@ -98,7 +98,7 @@ function FigureHandles = PlotNodeBifurcation(UniqueExtrema, options)
         for j = 1:NumberOfbifurcationSteps,
           c = [c (options.Bifurcation.InitialControlValue+(j-1)*options.Bifurcation.BifurcationParameterIncrement)*ones(1,length(UniqueExtrema.(options.Dynamics.StateVariables{tsv}){TheseNodes(n),tm,j}))];
         end
-        plot(c, BifV, glyph, 'markersize', 1), hold all
+        plot(c, BifV, glyph, 'markersize', 2), hold all
       end
       if ((options.Bifurcation.TargetControlValue-options.Bifurcation.InitialControlValue)>0) && ((UpperBound-LowerBound)>0),
         axis([options.Bifurcation.InitialControlValue options.Bifurcation.TargetControlValue LowerBound UpperBound]),%

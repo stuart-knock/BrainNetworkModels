@@ -44,7 +44,7 @@ function options = SetBifurcationOptions(options)
           defaults.InitialControlValue           = 10.0e2; %Must be strongly stable fixed point...
           defaults.BifurcationParameterIncrement =  0.625e2;
           defaults.TargetControlValue            = 30.0e2;
-          defaults.ErrorTolerance                = 1.0e-7;
+          defaults.ErrorTolerance                = 1.0e-6;
           
           defaults.MaxContinuations = 65; %set to 0 for interactive
           defaults.IntegrationsToMergeForNonstable = 10; 

@@ -116,127 +116,128 @@
 
 function [phi_e dphi_e V_e dV_e V_s dV_s V_r dV_r t options] = BRRW_heun(options)
 
-%Set RandStream to a state consistent with InitialConditions.
- options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
- if isoctave(),
-   rand('state', options.Dynamics.InitialConditions.ThisRandomStream.State);
- else %Presumably Matlab
-   RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
- end
-
-%Check sufficient history was provided
- if options.Integration.maxdelayiters>size(options.Dynamics.InitialConditions.phi_e, 1), %Initialconditions aren't sufficiently long enough
-   error(['BrainNetworkModels:' mfilename ':InitialConditionsTooShort'],'The InitialConditions provided do not contain enough data points for the maximum delay of the system...');
- end
- 
-%Set initial state vectors
- x  = options.Dynamics.InitialConditions.phi_e(end, :);
- dx = options.Dynamics.InitialConditions.dphi_e(end, :);
- y  = options.Dynamics.InitialConditions.V_e(end, :);
- dy = options.Dynamics.InitialConditions.dV_e(end, :);
- z  = options.Dynamics.InitialConditions.V_s(end, :);
- dz = options.Dynamics.InitialConditions.dV_s(end, :);
- w  = options.Dynamics.InitialConditions.V_r(end, :);
- dw = options.Dynamics.InitialConditions.dV_r(end, :);
- 
-%Initialise array to store   variable, including it's history
- phi_e  = [options.Dynamics.InitialConditions.phi_e((end-options.Integration.maxdelayiters+1):end, :) ; zeros(options.Integration.iters, options.Connectivity.NumberOfNodes)]; 
-%Initialise array to store   variable
- dphi_e =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
- V_e    =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
- dV_e   =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
-%Initialise array to store   variable, including it's history
- V_s    = [options.Dynamics.InitialConditions.V_s((end-options.Integration.maxdelayiters+1):end, :)   ; zeros(options.Integration.iters, options.Connectivity.NumberOfNodes)]; 
-%Initialise array to store   variable
- dV_s   =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
- V_r    =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
- dV_r   =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
-%-----------------------------------------------------------------------%
+  %Set RandStream to a state consistent with InitialConditions.
+  options.Dynamics.InitialConditions.ThisRandomStream.State = options.Dynamics.InitialConditions.StateRand;
+  if isoctave(),
+    rand('state', options.Dynamics.InitialConditions.ThisRandomStream.State);
+  else %Presumably Matlab
+    RandStream.setDefaultStream(options.Dynamics.InitialConditions.ThisRandomStream);
+  end
+  
+  %Check sufficient history was provided
+  if options.Integration.maxdelayiters>size(options.Dynamics.InitialConditions.phi_e, 1), %Initialconditions aren't sufficiently long enough
+    error(['BrainNetworkModels:' mfilename ':InitialConditionsTooShort'],'The InitialConditions provided do not contain enough data points for the maximum delay of the system...');
+  end
+  
+  %Set initial state vectors
+  x  = options.Dynamics.InitialConditions.phi_e(end, :);
+  dx = options.Dynamics.InitialConditions.dphi_e(end, :);
+  y  = options.Dynamics.InitialConditions.V_e(end, :);
+  dy = options.Dynamics.InitialConditions.dV_e(end, :);
+  z  = options.Dynamics.InitialConditions.V_s(end, :);
+  dz = options.Dynamics.InitialConditions.dV_s(end, :);
+  w  = options.Dynamics.InitialConditions.V_r(end, :);
+  dw = options.Dynamics.InitialConditions.dV_r(end, :);
+  
+  %Initialise array to store   variable, including it's history
+  phi_e  = [options.Dynamics.InitialConditions.phi_e((end-options.Integration.maxdelayiters+1):end, :) ; zeros(options.Integration.iters, options.Connectivity.NumberOfNodes)]; 
+  %Initialise array to store   variable
+  dphi_e =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
+  V_e    =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
+  dV_e   =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
+  %Initialise array to store   variable, including it's history
+  V_s    = [options.Dynamics.InitialConditions.V_s((end-options.Integration.maxdelayiters+1):end, :)   ; zeros(options.Integration.iters, options.Connectivity.NumberOfNodes)]; 
+  %Initialise array to store   variable
+  dV_s   =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
+  V_r    =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
+  dV_r   =                                                                                      zeros(options.Integration.iters, options.Connectivity.NumberOfNodes) ; 
+  %-----------------------------------------------------------------------%
 
 %% Integrate the f... Network Coupling
- 
- xhist = zeros(1,options.Connectivity.NumberOfNodes); %need this for when csf = 0...
- xt    = zeros(2,options.Connectivity.NumberOfNodes);
- zt    = zeros(2,options.Connectivity.NumberOfNodes);
+  
+  xhist = zeros(1,options.Connectivity.NumberOfNodes); %need this for when csf = 0...
+  xt    = zeros(2,options.Connectivity.NumberOfNodes);
+  zt    = zeros(2,options.Connectivity.NumberOfNodes);
 %%%keyboard 
- if options.Other.verbosity > 5; 
-   fprintf(1,'Integrating for %d steps, currently on step:     ', options.Integration.iters);
- end
- for k = 1:options.Integration.iters
-   if options.Other.verbosity > 5;
-     fprintf(1,'\b\b\b\b%4d', k);
-   end
-   
-  %Calculate coupling term 
-   if options.Dynamics.csf~=0,   %Skip it when checking uncoupled dynamics.
-     xhist(1,:) = sum(options.Connectivity.weights.*phi_e(options.Integration.lidelay+k), 1);
-   end
-   xt(1,:) = phi_e(options.Dynamics.CTlidelay+k);
-   xt(2,:) = phi_e(options.Dynamics.CTlidelay+k+1);
-   zt(1,:) = V_s(options.Dynamics.TClidelay+k);
-   zt(2,:) = V_s(options.Dynamics.TClidelay+k+1);
- 
-   LongRangeCouplingTerm = options.Dynamics.axb.*options.Dynamics.dtcsf.*Sigma(xhist, options.Dynamics.Qmax, options.Dynamics.Theta_e, options.Dynamics.sigma_e); 
+  if options.Other.verbosity > 5; 
+    fprintf(1,'Integrating for %d steps, currently on step:      ', options.Integration.iters);
+  end
+  for k = 1:options.Integration.iters
+    if options.Other.verbosity > 5;
+      fprintf(1,'\b\b\b\b\b%5d', k);
+    end
+    
+    %Calculate coupling term 
+    if options.Dynamics.csf~=0,   %Skip it when checking uncoupled dynamics.
+      xhist(1,:) = sum(options.Connectivity.weights.*phi_e(options.Integration.lidelay+k), 1);
+    end
+    xt(1,:) = phi_e(options.Dynamics.CTlidelay+k);
+    xt(2,:) = phi_e(options.Dynamics.CTlidelay+k+1);
+    zt(1,:) = V_s(options.Dynamics.TClidelay+k);
+    zt(2,:) = V_s(options.Dynamics.TClidelay+k+1);
+    
+    xhist = options.Dynamics.csf * xhist;
+    LongRangeCouplingTerm = options.Dynamics.axb.*options.Integration.dt.*Sigma(xhist, options.Dynamics.Qmax, options.Dynamics.Theta_e, options.Dynamics.sigma_e); 
+    
+    %Solve the differential equation (BRRW), using Heun scheme. (see, eg, Mannella 2002 "Integration Of SDEs on a Computer")  
+    [Fx0 Fdx0 Fy0 Fdy0 Fz0 Fdz0 Fw0 Fdw0] = BRRW(x, xt(1,:), dx, y, dy, z, zt(1,:), dz, w, dw, k, options.Dynamics);
+    x1  = x  + options.Integration.dt*Fx0;
+    dx1 = dx + options.Integration.dt*Fdx0;
+    y1  = y  + options.Integration.dt*Fy0;
+    dy1 = dy + options.Integration.dt*Fdy0 + LongRangeCouplingTerm; %%%???Properly within int: local => nu_ee.*x; Longrange => nu_ee.*Sigma(xhist,Qmax,Theta_e,sigma_e): ???%%%;
+    z1  = z  + options.Integration.dt*Fz0;
+    dz1 = dz + options.Integration.dt*Fdz0;
+    w1  = w  + options.Integration.dt*Fw0;
+    dw1 = dw + options.Integration.dt*Fdw0;
+    
+    [Fx1 Fdx1 Fy1 Fdy1 Fz1 Fdz1 Fw1 Fdw1] = BRRW(x1, xt(2,:), dx1, y1, dy1, z1, zt(2,:), dz1, w1, dw1, k, options.Dynamics);
+    nx  =  x + options.Integration.dtt*(Fx0  + Fx1); 
+    ndx = dx + options.Integration.dtt*(Fdx0 + Fdx1); 
+    ny  =  y + options.Integration.dtt*(Fy0  + Fy1); 
+    ndy = dy + options.Integration.dtt*(Fdy0 + Fdy1) + LongRangeCouplingTerm; %%%???Properly within int: local => nu_ee.*x; Longrange => nu_ee.*Sigma(xhist,Qmax,Theta_e,sigma_e): ???%%%
+    nz  =  z + options.Integration.dtt*(Fz0  + Fz1); 
+    ndz = dz + options.Integration.dtt*(Fdz0 + Fdz1); 
+    nw  =  w + options.Integration.dtt*(Fw0  + Fw1); 
+    ndw = dw + options.Integration.dtt*(Fdw0 + Fdw1); 
+    
+    %Store result of calc in variable for output
+    phi_e(options.Integration.maxdelayiters+k,:) = nx;
+    dphi_e(k,:) = ndx;
+    V_e(k,:)    = ny;
+    dV_e(k,:)   = ndy;
+    V_s(options.Integration.maxdelayiters+k,:) = nz;
+    dV_s(k,:)   = ndz;
+    V_r(k,:)    = nw;
+    dV_r(k,:)   = ndw;
+    
+    %Update solution in time
+    x  = nx;  %updating phi
+    dx = ndx; %updating dphi
+    y  = ny;  %updating Ve
+    dy = ndy; %updating dVe
+    z  = nz;  %updating Vs
+    dz = ndz; %updating dVs
+    w  = nw;  %updating Vr
+    dw = ndw; %updating dVr
   
-  %Solve the differential equation (BRRW), using Heun scheme. (see, eg, Mannella 2002 "Integration Of SDEs on a Computer")  
-   [Fx0 Fdx0 Fy0 Fdy0 Fz0 Fdz0 Fw0 Fdw0] = BRRW(x, xt(1,:),dx, y, dy, z, zt(1,:),dz, w, dw, k, options.Dynamics);
-   x1  = x  + options.Integration.dt*Fx0;
-   dx1 = dx + options.Integration.dt*Fdx0;
-   y1  = y  + options.Integration.dt*Fy0;
-   dy1 = dy + options.Integration.dt*Fdy0 + LongRangeCouplingTerm; %%%???Properly within int: local-homogeneous => nu_ee.*x; Inhomogeneous-Longrange => nu_ee.*Sigma(xhist,Qmax,Theta_e,sigma_e): ???%%%;
-   z1  = z  + options.Integration.dt*Fz0;
-   dz1 = dz + options.Integration.dt*Fdz0;
-   w1  = w  + options.Integration.dt*Fw0;
-   dw1 = dw + options.Integration.dt*Fdw0;
+  end %for iters
+  if options.Other.verbosity > 5;
+    fprintf(1,'\n');
+  end
   
-   [Fx1 Fdx1 Fy1 Fdy1 Fz1 Fdz1 Fw1 Fdw1] = BRRW(x1,xt(2,:),dx1,y1,dy1,z1,zt(2,:),dz1,w1,dw1, k, options.Dynamics);
-   nx  =  x + options.Integration.dtt*(Fx0  + Fx1); 
-   ndx = dx + options.Integration.dtt*(Fdx0 + Fdx1); 
-   ny  =  y + options.Integration.dtt*(Fy0  + Fy1); 
-   ndy = dy + options.Integration.dtt*(Fdy0 + Fdy1) + LongRangeCouplingTerm; %%%???Properly within int: local-homogeneous => nu_ee.*x; Inhomogeneous-Longrange => nu_ee.*Sigma(xhist,Qmax,Theta_e,sigma_e): ???%%%
-   nz  =  z + options.Integration.dtt*(Fz0  + Fz1); 
-   ndz = dz + options.Integration.dtt*(Fdz0 + Fdz1); 
-   nw  =  w + options.Integration.dtt*(Fw0  + Fw1); 
-   ndw = dw + options.Integration.dtt*(Fdw0 + Fdw1); 
+  phi_e = phi_e((options.Integration.maxdelayiters+1):end,:); %Throw away initial history...
+  V_s   =   V_s((options.Integration.maxdelayiters+1):end,:); %Throw away initial history...
+  
+  if nargout > 2
+    t = 0:options.Integration.dt:(options.Integration.dt*(options.Integration.iters-1)); %time in seconds
+  end
+  
+  if nargout > 3 %Store the state of the random number generators, for continuation...
+    if isoctave(),
+      options.Dynamics.InitialConditions.StateRand  = rand('state');
+    else %Presumably Matlab
+      options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
+    end
+  end
 
-  %Store result of calc in variable for output
-   phi_e(options.Integration.maxdelayiters+k,:) = nx;
-   dphi_e(k,:) = ndx;
-   V_e(k,:)    = ny;
-   dV_e(k,:)   = ndy;
-   V_s(options.Integration.maxdelayiters+k,:) = nz;
-   dV_s(k,:)   = ndz;
-   V_r(k,:)    = nw;
-   dV_r(k,:)   = ndw;
-     
-  %Update solution in time
-   x  = nx;  %updating phi
-   dx = ndx; %updating dphi
-   y  = ny;  %updating Ve
-   dy = ndy; %updating dVe
-   z  = nz;  %updating Vs
-   dz = ndz; %updating dVs
-   w  = nw;  %updating Vr
-   dw = ndw; %updating dVr
-
- end
- if options.Other.verbosity > 5;
-   fprintf(1,'\n');
- end
- 
- phi_e = phi_e((options.Integration.maxdelayiters+1):end,:); %Throw away initial history...
- V_s   =   V_s((options.Integration.maxdelayiters+1):end,:); %Throw away initial history...
- 
- if nargout > 2
-   t = 0:options.Integration.dt:(options.Integration.dt*(options.Integration.iters-1)); %time in seconds
- end
- 
- if nargout > 3 %Store the state of the random number generators, for continuation...
-   if isoctave(),
-     options.Dynamics.InitialConditions.StateRand  = rand('state');
-   else %Presumably Matlab
-     options.Dynamics.InitialConditions.StateRand  = options.Dynamics.InitialConditions.ThisRandomStream.State;
-   end
- end
- 
 end %function BRRW_heun()

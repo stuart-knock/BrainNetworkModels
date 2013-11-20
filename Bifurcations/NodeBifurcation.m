@@ -36,7 +36,7 @@
 %                        parameter until reaching this value. 
 %                .MaxContinuations -- number of times to run the integration
 %                        in search of asymptotically stable behaviour...
-%                        use 2|5|9|14|20|27|... ie: 0.5 * (n^2 + 3*n)
+%                        When forcing fixed point use 2|5|9|14|20|27|... ie: 0.5 * (n^2 + 3*n)
 %                .ErrorTolerance -- Value below which peak to peak variability 
 %                                   must be to consider it "Stable behaviour".
 %                .AttemptForceFixedPoint -- if set to true the continuation 
@@ -92,6 +92,9 @@
 %                        there...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%TODO: All comparisons to ErrorTolerance, both in determining stability and as
+%      "binning" scale when doing FindUnique and Merge, should be normalised...
+
 
 function [ForwardFxdPts BackwardFxdPts options] = NodeBifurcation(options)
   if isoctave(),
@@ -133,7 +136,7 @@ function [ForwardFxdPts BackwardFxdPts options] = NodeBifurcation(options)
     %Integrate
     options.Bifurcation.AttemptForceFixedPoint = WorthForcingFixedPoint;
     [TheseFxdPts NumberOfForwardFxdPts(CurrentBifStep,:) options ForwardStableSolutionFlag] = IntegrateUntilStable(options);
-    if WorthForcingFixedPoint && all(NumberOfForwardFxdPts(CurrentBifStep,:) > NumberIfAllAreFixedPoints),
+    if WorthForcingFixedPoint && any(NumberOfForwardFxdPts(CurrentBifStep,:) > NumberIfAllAreFixedPoints), %TODO: consider weakening from all(not-fixed-point) to any(not-fixed-point)
       WorthForcingFixedPoint = false;
       if options.Other.verbosity > 0,
         disp('All state variables appear to have bifurcated. Giving up on trying to force a fixed point...');
@@ -187,6 +190,10 @@ function [ForwardFxdPts BackwardFxdPts options] = NodeBifurcation(options)
         NumberOfFalseStableSolutionFlags = NumberOfFalseStableSolutionFlags+1;
       end
 %%%keyboard
+      %Never force fixed point when backtracking
+      if options.Bifurcation.AttemptForceFixedPoint,
+        options.Bifurcation.AttemptForceFixedPoint = false; %NOTE: this is reset near the start of the outer while loop.
+      end
       %Check for hysteresis...
       %TODO: Still missing some branches, it's not sufficient to track back to number of branches, need values to match as well... Do MergeExtrema of Fwd and bckwd for CurrentBifStep, then count...
       while (options.Dynamics.(options.Bifurcation.BifurcationParameter)>TrackBackwardUntil && any(NumberOfBackwardFxdPts(CurrentBifStep,:)~=NumberOfForwardFxdPts(CurrentBifStep,:)) && CurrentBifStep>=2),

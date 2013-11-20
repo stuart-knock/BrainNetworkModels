@@ -43,13 +43,17 @@
   options.Dynamics = SetDynamicParameters(options.Dynamics);
   options = SetIntegrationParameters(options);
   
-  options.Integration.dt = 2^-6;
+  options.Integration.dt = 2^-3;
+  options.Integration.iters = 2^14;
   
   options = SetDerivedParameters(options);
   options = SetInitialConditions(options);
   
   addpath(genpath('./Bifurcations'))
   options = SetBifurcationOptions(options);
+  options.Bifurcation.BifurcationParameterIncrement =  0.625e2;
+  options.Bifurcation.ErrorTolerance = 1.0e-6; 
+  options.Bifurcation.MaxContinuations = 77;
   options.Bifurcation.AttemptForceFixedPoint = false;
   
   addpath(genpath('./PlottingTools')) %Need this if using interactive mode
