@@ -485,7 +485,11 @@ function [Connectivity] = GetConnectivity(Connectivity)
                   
         %Load cortical interhemispheric data...
          try
-           CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.csv'], ',');
+          if isoctave(), %TODO: see if a more explicit import will let us use a single data file -- the data field resulting from importdata seems to be handled incompatibly between Octave & Matlab.
+            CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.csv'], ',');
+          else %Presumably Matlab
+            CallosalConnections = importdata(['ConnectivityData' Sep 'cleanCallosalConnections_HagmannVsCocomac.xls']);
+          end
          catch
            error(strcat('BrainNetworkModels:', mfilename,':NoImportdata'), 'If using Octave you probably need pkg io and importdata from forge...');
          end
@@ -500,7 +504,7 @@ function [Connectivity] = GetConnectivity(Connectivity)
          if isoctave(),
            InterHemispheric = CallosalConnections.data(2:37,5);
          else %Presumably Matlab
-            InterHemispheric = CallosalConnections.data(:,5); %TODO: Need to check if Matlab has changed with explicit ',' required by octave for importdata
+            InterHemispheric = CallosalConnections.data(:,5);
          end
          %keyboard
          

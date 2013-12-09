@@ -98,7 +98,7 @@ function options = SetDerivedParameters(options)
      
      options.Dynamics.gamma_e = options.Dynamics.v ./ options.Dynamics.r_e;
      options.Dynamics.Delta_x = options.Dynamics.CorticalCircumference ./ options.Dynamics.Discretization;
-     options.Dynamics.LapOp   = DiscreteLaplacian_1D(options.Connectivity.NumberOfNodes, 3) *0.0 ; %./ options.Dynamics.Delta_x.^2;
+     options.Dynamics.LapOp   = DiscreteLaplacian_1D(options.Connectivity.NumberOfNodes, 3) ./ options.Dynamics.Delta_x.^2;
      options.Dynamics.axb     = options.Dynamics.alfa .* options.Dynamics.btta;
      options.Dynamics.apb     = options.Dynamics.alfa + options.Dynamics.btta;
      options.Dynamics.dtcsf   = options.Integration.dt*options.Dynamics.csf;
